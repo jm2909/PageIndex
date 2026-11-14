@@ -810,11 +810,24 @@ def extract_text_from_pdf(pdf_path):
         text+=page.extract_text()
     return text
 
+def extract_text_from_markdown(md_path):
+    """The Markdown file's whole text, exactly as written."""
+    from .markdown_pages import read_markdown
+    return read_markdown(md_path)
+
 def get_pdf_title(pdf_path):
     pdf_reader = PyPDF2.PdfReader(pdf_path)
     meta = pdf_reader.metadata
     title = meta.title if meta and meta.title else 'Untitled'
     return title
+
+def get_markdown_title(md_path):
+    """The first level-1 heading's text, else 'Untitled'."""
+    from .markdown_pages import read_markdown, scan_markdown, split_lines
+    for heading in scan_markdown(split_lines(read_markdown(md_path))).headings:
+        if heading.level == 1 and heading.title:
+            return heading.title
+    return 'Untitled'
 
 def get_text_of_pages(pdf_path, start_page, end_page, tag=True):
     pdf_reader = PyPDF2.PdfReader(pdf_path)
@@ -826,6 +839,16 @@ def get_text_of_pages(pdf_path, start_page, end_page, tag=True):
             text += f"<start_index_{page_num+1}>\n{page_text}\n<end_index_{page_num+1}>\n"
         else:
             text += page_text
+    return text
+
+def get_text_of_markdown_pages(md_path, start_page, end_page, tag=True, page_tokens=None):
+    pages = get_markdown_pages(md_path, page_tokens=page_tokens)
+    text = ""
+    for page in pages[start_page-1:end_page]:
+        if tag:
+            text += f"<start_index_{page.page_index}>\n{page.text}\n<end_index_{page.page_index}>\n"
+        else:
+            text += page.text
     return text
 
 def get_first_start_page_from_text(text):
@@ -861,6 +884,16 @@ def get_pdf_name(pdf_path):
         pdf_name = meta.title if meta and meta.title else 'Untitled'
         pdf_name = sanitize_filename(pdf_name)
     return pdf_name
+
+def is_markdown_path(path):
+    """True for a str path ending .md or .markdown (any case)."""
+    return isinstance(path, str) and path.lower().endswith(('.md', '.markdown'))
+
+def get_markdown_name(md_path):
+    return os.path.basename(md_path)
+
+def get_doc_name(doc):
+    return get_markdown_name(doc) if is_markdown_path(doc) else get_pdf_name(doc)
 
 
 class JsonLogger:
@@ -968,6 +1001,8 @@ def add_preface_if_needed(data):
 
 
 def get_page_tokens(pdf_path, model=None, pdf_parser="PyPDF2"):
+    if is_markdown_path(pdf_path):
+        return get_markdown_page_tokens(pdf_path, model)
     if pdf_parser == "PyPDF2":
         pdf_reader = PyPDF2.PdfReader(pdf_path)
         page_list = []
@@ -993,6 +1028,22 @@ def get_page_tokens(pdf_path, model=None, pdf_parser="PyPDF2"):
     else:
         raise ValueError(f"Unsupported PDF parser: {pdf_parser}")
 
+def get_markdown_pages(md_path, model=None, page_tokens=None, max_block_tokens=None):
+    """The Markdown file as lossless, block-aware MarkdownPage objects; None
+    reads md_page_tokens / max_token_num_each_node from config.yaml."""
+    from .markdown_pages import read_markdown, split_markdown_pages
+    if page_tokens is None or max_block_tokens is None:
+        defaults = ConfigLoader().load()
+        page_tokens = page_tokens if page_tokens is not None else defaults.md_page_tokens
+        max_block_tokens = (max_block_tokens if max_block_tokens is not None
+                            else defaults.max_token_num_each_node)
+    return split_markdown_pages(read_markdown(md_path), model=model,
+                                page_tokens=page_tokens, max_block_tokens=max_block_tokens)
+
+def get_markdown_page_tokens(md_path, model=None, page_tokens=None, max_block_tokens=None):
+    return [(p.text, p.tokens) for p in get_markdown_pages(
+        md_path, model, page_tokens=page_tokens, max_block_tokens=max_block_tokens)]
+
         
 
 def get_text_of_pdf_pages(pdf_pages, start_page, end_page):
@@ -1015,6 +1066,9 @@ def get_number_of_pages(pdf_path):
     pdf_reader = PyPDF2.PdfReader(pdf_path)
     num = len(pdf_reader.pages)
     return num
+
+def get_number_of_markdown_pages(md_path, page_tokens=None):
+    return len(get_markdown_pages(md_path, page_tokens=page_tokens))
 
 
 

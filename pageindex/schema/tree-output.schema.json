@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pageindex/tree-output.schema.json",
+  "title": "PageIndex tree output (PDF and Markdown)",
+  "type": "object",
+  "required": [
+    "doc_name",
+    "source_type",
+    "structure"
+  ],
+  "properties": {
+    "doc_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_type": {
+      "enum": [
+        "pdf",
+        "markdown"
+      ]
+    },
+    "doc_description": {
+      "type": "string"
+    },
+    "doc_title": {
+      "type": "string"
+    },
+    "toc_source": {
+      "enum": [
+        "detected",
+        "bookmarks",
+        "hybrid",
+        "pages",
+        "unreadable"
+      ]
+    },
+    "optimize": {
+      "type": "object"
+    },
+    "has_abstract_or_references_section": {
+      "type": "boolean"
+    },
+    "structure": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/node"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": [
+        "title",
+        "start_index",
+        "end_index"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "node_id": {
+          "type": "string",
+          "pattern": "^[0-9]{4}$"
+        },
+        "start_index": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "end_index": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "summary": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "key_items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "line_start": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "line_end": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/node"
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "$comment": "Core keys are required and typed; extra keys (e.g. flash internals) are allowed but no consumer may require them."
+}

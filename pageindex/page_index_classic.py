@@ -1139,6 +1139,10 @@ async def meta_processor(page_list, mode=None, toc_content=None, toc_page_list=N
         toc_with_page_number = process_toc_with_page_numbers(toc_content, toc_page_list, page_list, toc_check_page_num=opt.toc_check_page_num, model=opt.model, logger=logger)
     elif mode == 'process_toc_no_page_numbers':
         toc_with_page_number = process_toc_no_page_numbers(toc_content, toc_page_list, page_list, model=opt.model, logger=logger)
+    elif mode == 'process_toc_hint':
+        # Constitution III named exception 1: Markdown headings as the TOC,
+        # checked by the same verify/fix steps below
+        toc_with_page_number = copy.deepcopy(toc_content)
     else:
         toc_with_page_number = process_no_toc(page_list, start_index=start_index, model=opt.model, logger=logger)
             
@@ -1167,6 +1171,8 @@ async def meta_processor(page_list, mode=None, toc_content=None, toc_page_list=N
         if mode == 'process_toc_with_page_numbers':
             return await meta_processor(page_list, mode='process_toc_no_page_numbers', toc_content=toc_content, toc_page_list=toc_page_list, start_index=start_index, opt=opt, logger=logger)
         elif mode == 'process_toc_no_page_numbers':
+            return await meta_processor(page_list, mode='process_no_toc', start_index=start_index, opt=opt, logger=logger)
+        elif mode == 'process_toc_hint':
             return await meta_processor(page_list, mode='process_no_toc', start_index=start_index, opt=opt, logger=logger)
         else:
             raise Exception('Processing failed')
@@ -1209,10 +1215,23 @@ async def process_large_node_recursively(node, page_list, opt=None, logger=None,
     return node
 
 async def tree_parser(page_list, opt, doc=None, logger=None):
-    check_toc_result = check_toc(page_list, opt)
+    heading_hint = []
+    if getattr(opt, 'md_heading_hint', 'no') == 'yes' and is_markdown_path(doc):
+        from .markdown_pages import extract_heading_toc
+        heading_hint = extract_heading_toc(page_list)
+    check_toc_result = ({'toc_content': None, 'toc_page_list': [], 'page_index_given_in_toc': 'no'}
+                        if heading_hint else check_toc(page_list, opt))
     logger.info(check_toc_result)
 
-    if check_toc_result.get("toc_content") and check_toc_result["toc_content"].strip() and check_toc_result["page_index_given_in_toc"] == "yes":
+    if heading_hint:
+        toc_with_page_number = await meta_processor(
+            page_list,
+            mode='process_toc_hint',
+            start_index=1,
+            toc_content=heading_hint,
+            opt=opt,
+            logger=logger)
+    elif check_toc_result.get("toc_content") and check_toc_result["toc_content"].strip() and check_toc_result["page_index_given_in_toc"] == "yes":
         toc_with_page_number = await meta_processor(
             page_list, 
             mode='process_toc_with_page_numbers', 
@@ -1246,6 +1265,10 @@ async def tree_parser(page_list, opt, doc=None, logger=None):
     return add_intro_nodes(toc_tree)
 
 
+_NODE_KEY_ORDER = ['title', 'node_id', 'start_index', 'end_index', 'line_start', 'line_end',
+                   'key_items', 'summary', 'text', 'nodes']
+
+
 def page_index_main(doc, opt=None, logger=None, page_list=None):
     from .integrations.claude_agent_sdk import is_claude_code
     if any(is_claude_code(getattr(opt, name, None))
@@ -1261,9 +1284,19 @@ def page_index_main(doc, opt=None, logger=None, page_list=None):
          and sanitize_upload_filename(os.path.basename(doc)).lower().endswith(".pdf")) or
         isinstance(doc, BytesIO)
     )
-    if not is_valid_pdf:
-        raise ValueError("Unsupported input type. Expected a PDF file path or BytesIO object.")
+    is_markdown = is_markdown_path(doc) and os.path.isfile(doc)
+    if not (is_valid_pdf or is_markdown):
+        raise ValueError("Unsupported input type. Expected a PDF or Markdown (.md, .markdown) "
+                         "file path or a PDF BytesIO object.")
+    source_type = 'markdown' if is_markdown else 'pdf'
 
+    if page_list is None and is_markdown:
+        # text entry: the Markdown pager in place of PDF text extraction
+        print('Parsing Markdown...')
+        page_list = get_markdown_page_tokens(
+            doc, model=opt.model,
+            page_tokens=getattr(opt, 'md_page_tokens', None),
+            max_block_tokens=getattr(opt, 'max_token_num_each_node', None))
     if page_list is None:
         print('Parsing PDF...')
         page_list = get_page_tokens(doc, model=opt.model)
@@ -1286,16 +1319,25 @@ def page_index_main(doc, opt=None, logger=None, page_list=None):
                 clean_structure = create_clean_structure_for_description(structure, top_level_only=True)
                 doc_description = generate_doc_description(clean_structure, model=getattr(opt, 'summary_model', None) or opt.model)
                 cover_subtree_ranges(structure)
-                structure = format_structure(structure, order=['title', 'node_id', 'start_index', 'end_index', 'key_items', 'summary', 'text', 'nodes'])
+                if is_markdown:
+                    # Constitution III named exception 2: optional line ranges
+                    from .markdown_pages import add_markdown_line_ranges
+                    add_markdown_line_ranges(structure, page_list)
+                structure = format_structure(structure, order=_NODE_KEY_ORDER)
                 return {
-                    'doc_name': get_pdf_name(doc),
+                    'doc_name': get_doc_name(doc),
+                    'source_type': source_type,
                     'doc_description': doc_description,
                     'structure': structure,
                 }
         cover_subtree_ranges(structure)
-        structure = format_structure(structure, order=['title', 'node_id', 'start_index', 'end_index', 'key_items', 'summary', 'text', 'nodes'])
+        if is_markdown:
+            from .markdown_pages import add_markdown_line_ranges
+            add_markdown_line_ranges(structure, page_list)
+        structure = format_structure(structure, order=_NODE_KEY_ORDER)
         return {
-            'doc_name': get_pdf_name(doc),
+            'doc_name': get_doc_name(doc),
+            'source_type': source_type,
             'structure': structure,
         }
 
@@ -1303,8 +1345,11 @@ def page_index_main(doc, opt=None, logger=None, page_list=None):
 
 
 def page_index(doc, model=None, toc_check_page_num=None, max_page_num_each_node=None, max_token_num_each_node=None,
-               if_add_node_id=None, if_add_node_summary=None, if_add_doc_description=None, if_add_node_text=None):
-    
+               if_add_node_id=None, if_add_node_summary=None, if_add_doc_description=None, if_add_node_text=None,
+               md_page_tokens=None, md_heading_hint=None):
+    """Index a PDF or Markdown file in standard mode. md_page_tokens and
+    md_heading_hint apply to Markdown only; None keeps the config default."""
+
     user_opt = {
         arg: value for arg, value in locals().items()
         if arg != "doc" and value is not None

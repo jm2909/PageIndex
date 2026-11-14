@@ -213,9 +213,11 @@ def page_index_flash(pdf, summary=True, summary_model=None,
         effort = effort or default_summary_reasoning_effort(summary_model)
         prewarm = ((summary_model, effort),)  # its session launches while the PDF is read
     with claude_code_workflows(prewarm=prewarm):
-        return _page_index_flash(pdf, summary, summary_model, optimize, optimize_expand,
-                                 optimize_model, summary_concurrency, use_embedded_toc,
-                                 summary_max_words, summary_reasoning_effort)
+        result = _page_index_flash(pdf, summary, summary_model, optimize, optimize_expand,
+                                   optimize_model, summary_concurrency, use_embedded_toc,
+                                   summary_max_words, summary_reasoning_effort)
+    result["source_type"] = "pdf"  # shared tree envelope; Flash is PDF-only
+    return result
 
 
 def _refuse_effort(model, effort):

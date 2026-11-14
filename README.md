@@ -104,6 +104,20 @@ print(answer)
 
 **Have a Claude subscription?** PageIndex can use your subscription to call Claude models through Claude Code: usage is covered by your plan, no API key needed. Install with `pip install -U "pageindex[claude]"`, then prefix model names with `claude-code/`, e.g., `index="claude-code/haiku"`, `chat="claude-code/opus"` (see [example](https://github.com/VectifyAI/PageIndex/blob/main/cookbook/pageindex-claude-subscription.py)).
 
+### Markdown documents
+
+Markdown files (`.md`, `.markdown`) go through the same standard-mode indexing as PDFs, with the same steps and prompts, and produce the same tree. The file is cut into pages of about 800 tokens (`md_page_tokens` in `config.yaml`) without changing a byte: no page break lands inside a code block, table, list, blockquote, HTML block or front matter. Each section and each chat citation also gives its original line range, e.g. `[notes.md, p. 3, lines 120–164]`.
+
+```python
+doc_id = client.submit_document("notes.md")["doc_id"]   # standard mode; Flash is PDF-only
+```
+
+```bash
+python run_pageindex.py --md_path notes.md                       # standard pipeline (needs an API model)
+python run_pageindex.py --md_path notes.md --md-heading-hint     # use the # headings as the table of contents: fewer LLM calls
+python run_pageindex.py --md_path notes.md --md-indexer headings # the old LLM-free heading-based indexer and output format
+```
+
 ### [Use PageIndex through the SDK client →](https://docs.pageindex.ai/getting-started)
 
 Configure other models, streaming, multi-document search, citations, and more.

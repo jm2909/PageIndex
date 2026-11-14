@@ -126,8 +126,13 @@ class LocalAPI:
                 f"Failed to submit document: unknown local processing mode {mode!r}. "
                 "Supported: 'flash' (default) or 'standard'."
             )
+        is_markdown = str(file_path).lower().endswith((".md", ".markdown"))
+        if is_markdown and mode == "flash":
+            raise PageIndexAPIError(
+                "Failed to submit document: Flash mode supports PDF only; "
+                "Markdown uses standard mode")
         if mode is None:
-            mode = "flash"
+            mode = "standard" if is_markdown else "flash"
         if mode == "standard" and (self._summary_max_words is not None
                                    or self._summary_concurrency is not None
                                    or self._summary_reasoning_effort is not None):
@@ -139,19 +144,34 @@ class LocalAPI:
         if not os.path.isfile(file_path):
             raise FileNotFoundError(f"No such file: {file_path}")
         doc_name = sanitize_filename(os.path.basename(file_path))
-        if not doc_name.lower().endswith(".pdf"):
+        if not (doc_name.lower().endswith(".pdf") or is_markdown):
             raise PageIndexAPIError(
-                "Failed to submit document: only PDF files are supported in local mode."
+                "Failed to submit document: only PDF and Markdown (.md, .markdown) "
+                "files are supported in local mode."
             )
 
-        try:
-            page_texts = self._extract_page_texts(file_path)
-        except PageIndexAPIError:
-            raise
-        except Exception as e:
-            raise PageIndexAPIError(
-                f"Failed to submit document: could not read PDF: {e}"
-            ) from e
+        md_pages = None
+        if is_markdown:
+            # text entry: exact, block-aware pages with their line ranges
+            from .markdown_pages import BLANK_MESSAGE
+            from .utils import get_markdown_pages
+            try:
+                md_pages = get_markdown_pages(file_path, self._model)
+            except ValueError as e:
+                if str(e) == BLANK_MESSAGE:
+                    raise PageIndexAPIError(f"Failed to submit document: {e}") from None
+                raise PageIndexAPIError(
+                    f"Failed to submit document: could not read Markdown: {e}") from None
+            page_texts = [p.text for p in md_pages]
+        else:
+            try:
+                page_texts = self._extract_page_texts(file_path)
+            except PageIndexAPIError:
+                raise
+            except Exception as e:
+                raise PageIndexAPIError(
+                    f"Failed to submit document: could not read PDF: {e}"
+                ) from e
         if not any(text.strip() for text in page_texts):
             raise PageIndexAPIError(
                 "Failed to submit document: PDF has no content. All pages are blank."
@@ -171,7 +191,8 @@ class LocalAPI:
             else:
                 structure, description = run_off_loop(
                     self._with_backend, usage, (self._model, self._summary_model),
-                    self._index_standard, file_path, page_texts
+                    self._index_standard, file_path, page_texts,
+                    [p.tokens for p in md_pages] if md_pages else None
                 )
         except PageIndexAPIError:
             raise
@@ -184,8 +205,14 @@ class LocalAPI:
         self._check_page_bounds(structure, len(page_texts))
 
         doc_id = "pi-" + uuid.uuid4().hex
-        pages = [{"page_index": i + 1, "markdown": text}
-                 for i, text in enumerate(page_texts)]
+        if md_pages:
+            # Constitution III named exception 2: line ranges on stored pages
+            pages = [{"page_index": p.page_index, "markdown": p.text,
+                      "line_start": p.line_start, "line_end": p.line_end}
+                     for p in md_pages]
+        else:
+            pages = [{"page_index": i + 1, "markdown": text}
+                     for i, text in enumerate(page_texts)]
         from .utils import remove_fields
         # Check-then-write under the store lock; the early pre-check above
         # is advisory only.
@@ -200,6 +227,7 @@ class LocalAPI:
                 "folderId": None,
                 "metadata": metadata,
                 "mode": mode,
+                "source_type": "markdown" if is_markdown else "pdf",
             }
             self._store.save_document(
                 doc_id, meta, remove_fields(structure, fields=["text"]), pages)
@@ -247,9 +275,12 @@ class LocalAPI:
             return [_scrub_surrogates(page.extract_text() or "")
                     for page in reader.pages]
 
-    def _index_standard(self, file_path: str, page_texts: list[str]) -> tuple[list, str | None]:
+    def _index_standard(self, file_path: str, page_texts: list[str],
+                        page_tokens: list[int] | None = None) -> tuple[list, str | None]:
         from .page_index_classic import page_index_main
-        page_list = [(text, count_tokens(text, model=self._model)) for text in page_texts]
+        if page_tokens is None:
+            page_tokens = [count_tokens(text, model=self._model) for text in page_texts]
+        page_list = list(zip(page_texts, page_tokens))
         opt = self._config_loader.load({
             "model": self._model,
             "summary_model": self._summary_model,
@@ -335,7 +366,10 @@ class LocalAPI:
             if format == "page":
                 result = pages
             else:  # raw
-                result = "\n\n".join(p.get("markdown", "") for p in pages)
+                # Constitution III named exception 3: Markdown pages are exact
+                # slices, so joining them with "" gives back the file
+                joiner = "" if _source_type(meta) == "markdown" else "\n\n"
+                result = joiner.join(p.get("markdown", "") for p in pages)
         return self._completed_envelope(doc_id, result, meta)
 
     @staticmethod
@@ -373,9 +407,21 @@ class LocalAPI:
         meta = self._store.get_meta(doc_id)
         if meta is None:
             raise PageIndexAPIError("Failed to get document metadata: Document not found")
-        return {key: meta.get(key) for key in
-                ("id", "name", "description", "status", "createdAt", "pageNum",
-                 "folderId", "metadata")}
+        doc = {key: meta.get(key) for key in
+               ("id", "name", "description", "status", "createdAt", "pageNum",
+                "folderId", "metadata")}
+        doc["source_type"] = _source_type(meta)
+        return doc
+
+    def page_line_range(self, doc_id: str, page: int) -> tuple[int, int] | None:
+        """The stored (line_start, line_end) of one page, when the page
+        carries them (Markdown documents); else None."""
+        pages = self._store.get_pages(doc_id) or []
+        if 1 <= page <= len(pages):
+            stored = pages[page - 1]
+            if "line_start" in stored and "line_end" in stored:
+                return stored["line_start"], stored["line_end"]
+        return None
 
     def delete_document(self, doc_id: str) -> dict[str, Any]:
         if not self._store.delete_document(doc_id):
@@ -427,6 +473,11 @@ class LocalAPI:
         }
 
 
+def _source_type(meta: dict) -> str:
+    """Documents stored before source_type existed are PDFs."""
+    return meta.get("source_type") or "pdf"
+
+
 def _format_tree_node(node: dict, node_summary: bool) -> dict:
     children = node.get("nodes") or []
     out = {
@@ -435,6 +486,9 @@ def _format_tree_node(node: dict, node_summary: bool) -> dict:
         "start_index": node.get("start_index"),
         "end_index": node.get("end_index"),
     }
+    for key in ("line_start", "line_end"):  # optional, Markdown trees only
+        if key in node:
+            out[key] = node[key]
     if node.get("key_items"):
         out["key_items"] = node["key_items"]
     if node_summary:

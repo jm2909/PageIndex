@@ -12,8 +12,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Process PDF or Markdown document and generate structure')
     parser.add_argument('--pdf_path', type=str, help='Path to the PDF file')
     parser.add_argument('--md_path', type=str, help='Path to the Markdown file')
-    parser.add_argument('--mode', choices=['flash', 'standard'], default='flash',
-                      help='Processing mode (default: flash)')
+    parser.add_argument('--mode', choices=['flash', 'standard'], default=None,
+                      help='Processing mode (default: flash for PDF; Markdown always uses standard)')
     parser.add_argument('--flash', action='store_true', default=False,
                       help=argparse.SUPPRESS)
     parser.add_argument('--embedded-toc', action=argparse.BooleanOptionalAction, default=None,
@@ -39,11 +39,11 @@ if __name__ == "__main__":
                       help=f'Reasoning effort sent with each node-summary call; a level LiteLLM\'s model map says the model doesn\'t take raises before any model call (flash mode; default the least thinking the model takes, trying {", ".join(SUMMARY_EFFORT_LADDER)} in turn, past a level the server refuses)')
 
     parser.add_argument('--toc-check-pages', type=int, default=None,
-                      help='Number of pages to check for table of contents (PDF only)')
+                      help='Number of pages to check for table of contents (standard mode)')
     parser.add_argument('--max-pages-per-node', type=int, default=None,
-                      help='Maximum number of pages per node (PDF only)')
+                      help='Maximum number of pages per node (standard mode)')
     parser.add_argument('--max-tokens-per-node', type=int, default=None,
-                      help='Maximum number of tokens per node (PDF only)')
+                      help='Maximum number of tokens per node (standard mode)')
 
     parser.add_argument('--if-add-node-id', type=str, default=None,
                       help='Whether to add node id to the node')
@@ -55,15 +55,47 @@ if __name__ == "__main__":
                       help='Whether to add text to the node')
                       
     # Markdown specific arguments
-    parser.add_argument('--if-thinning', type=str, default='no',
-                      help='Whether to apply tree thinning for markdown (markdown only)')
-    parser.add_argument('--thinning-threshold', type=int, default=5000,
-                      help='Minimum token threshold for thinning (markdown only)')
-    parser.add_argument('--summary-token-threshold', type=int, default=200,
-                      help='Token threshold for generating summaries (markdown only)')
+    parser.add_argument('--md-indexer', choices=['llm', 'headings'], default='llm',
+                      help='Markdown indexer: llm = the standard pipeline, same as PDF (default); '
+                           'headings = the old LLM-free heading-based indexer and its output format')
+    parser.add_argument('--md-page-tokens', type=int, default=None,
+                      help='Target tokens per Markdown page (default: md_page_tokens in config.yaml)')
+    parser.add_argument('--md-heading-hint', action='store_true', default=False,
+                      help='Give the Markdown headings to the indexer as its table of contents')
+    parser.add_argument('--if-thinning', type=str, default=None,
+                      help='Whether to apply tree thinning (--md-indexer headings only; default no)')
+    parser.add_argument('--thinning-threshold', type=int, default=None,
+                      help='Minimum token threshold for thinning (--md-indexer headings only; default 5000)')
+    parser.add_argument('--summary-token-threshold', type=int, default=None,
+                      help='Token threshold for generating summaries (--md-indexer headings only; default 200)')
     args = parser.parse_args()
     if args.flash:
         args.mode = 'flash'
+    if args.md_path:
+        if args.mode == 'flash':
+            raise ValueError("Flash mode supports PDF only; Markdown uses standard mode")
+        args.mode = 'standard'
+        if args.md_indexer != 'headings':
+            for flag, value in (('--if-thinning', args.if_thinning),
+                                ('--thinning-threshold', args.thinning_threshold),
+                                ('--summary-token-threshold', args.summary_token_threshold)):
+                if value is not None:
+                    raise ValueError(f"{flag} only works with --md-indexer headings")
+        else:
+            for flag, value in (('--md-page-tokens', args.md_page_tokens),
+                                ('--md-heading-hint', args.md_heading_hint or None)):
+                if value is not None:
+                    raise ValueError(f"{flag} does not apply to --md-indexer headings")
+    elif args.mode is None:
+        args.mode = 'flash'
+    if args.pdf_path:
+        for flag, value in (('--md-page-tokens', args.md_page_tokens),
+                            ('--md-heading-hint', args.md_heading_hint or None),
+                            ('--if-thinning', args.if_thinning),
+                            ('--thinning-threshold', args.thinning_threshold),
+                            ('--summary-token-threshold', args.summary_token_threshold)):
+            if value is not None:
+                raise ValueError(f"{flag} applies to Markdown only")
 
     # Validate that exactly one file type is specified
     if not args.pdf_path and not args.md_path:
@@ -168,39 +200,58 @@ if __name__ == "__main__":
             
         # Process markdown file
         print('Processing markdown file...')
-        
-        # Process the markdown
-        import asyncio
-        
-        # Use ConfigLoader to get consistent defaults (matching PDF behavior)
-        from pageindex.utils import ConfigLoader
-        config_loader = ConfigLoader()
-        
-        # Create options dict with user args
-        user_opt = {
-            'index_model': args.index_model,
-            'model': args.model,
-            'summary_model': args.summary_model,
-        }
-        
-        # Load config with defaults from config.yaml
-        opt = config_loader.load({k: v for k, v in user_opt.items() if v is not None})
-        
-        # if_add_* pass through as given (absent = off, as before this CLI
-        # used config.yaml): the PDF defaults there must not switch on LLM
-        # passes the markdown CLI never ran.
-        toc_with_page_number = asyncio.run(md_to_tree(
-            md_path=args.md_path,
-            if_thinning=args.if_thinning.lower() == 'yes',
-            min_token_threshold=args.thinning_threshold,
-            if_add_node_summary=args.if_add_node_summary,
-            summary_token_threshold=args.summary_token_threshold,
-            model=opt.model,
-            summary_model=opt.summary_model,
-            if_add_doc_description=args.if_add_doc_description,
-            if_add_node_text=args.if_add_node_text,
-            if_add_node_id=args.if_add_node_id
-        ))
+
+        if args.md_indexer == 'llm':
+            # Standard pipeline, same steps and prompts as PDF standard mode
+            user_opt = {
+                'index_model': args.index_model,
+                'model': args.model,
+                'summary_model': args.summary_model,
+                'toc_check_page_num': args.toc_check_pages,
+                'max_page_num_each_node': args.max_pages_per_node,
+                'max_token_num_each_node': args.max_tokens_per_node,
+                'if_add_node_id': args.if_add_node_id,
+                'if_add_node_summary': args.if_add_node_summary,
+                'if_add_doc_description': args.if_add_doc_description,
+                'if_add_node_text': args.if_add_node_text,
+                'md_page_tokens': args.md_page_tokens,
+                'md_heading_hint': 'yes' if args.md_heading_hint else None,
+            }
+            opt = ConfigLoader().load({k: v for k, v in user_opt.items() if v is not None})
+            toc_with_page_number = page_index_main(args.md_path, opt)
+        else:
+            # Old LLM-free heading-based indexer, output format unchanged
+            import asyncio
+
+            # Use ConfigLoader to get consistent defaults (matching PDF behavior)
+            config_loader = ConfigLoader()
+
+            # Create options dict with user args
+            user_opt = {
+                'index_model': args.index_model,
+                'model': args.model,
+                'summary_model': args.summary_model,
+            }
+
+            # Load config with defaults from config.yaml
+            opt = config_loader.load({k: v for k, v in user_opt.items() if v is not None})
+
+            # if_add_* pass through as given (absent = off, as before this CLI
+            # used config.yaml): the PDF defaults there must not switch on LLM
+            # passes the markdown CLI never ran.
+            toc_with_page_number = asyncio.run(md_to_tree(
+                md_path=args.md_path,
+                if_thinning=(args.if_thinning or 'no').lower() == 'yes',
+                min_token_threshold=args.thinning_threshold if args.thinning_threshold is not None else 5000,
+                if_add_node_summary=args.if_add_node_summary,
+                summary_token_threshold=(args.summary_token_threshold
+                                         if args.summary_token_threshold is not None else 200),
+                model=opt.model,
+                summary_model=opt.summary_model,
+                if_add_doc_description=args.if_add_doc_description,
+                if_add_node_text=args.if_add_node_text,
+                if_add_node_id=args.if_add_node_id
+            ))
         
         print('Parsing done, saving to file...')
         

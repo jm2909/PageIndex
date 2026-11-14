@@ -2189,7 +2189,8 @@ class PageIndexClient:
         "queued", "processing", "completed", "failed" (local documents are
         always "completed"; local 'folderId' is always None). 'metadata'
         is your own tags from ``submit_document``, or None. A cloud document
-        also carries 'collectionId': its collection, or None.
+        also carries 'collectionId': its collection, or None. A local
+        document also carries 'source_type': "pdf" or "markdown".
 
         'createdAt' is UTC with no timezone marker, in both modes. To show
         it in the user's timezone::
@@ -2812,6 +2813,8 @@ class PageIndexClient:
                 if doc.get("path") and doc.get("id"):
                     names.setdefault(doc["path"], []).append(doc["id"])
         resolved: list[dict[str, Any]] = []
+        # local stored pages of Markdown documents carry their line ranges
+        page_line_range = getattr(getattr(self, "_api", None), "page_line_range", None)
         for citation in citations:
             cited = citation["document"]
             ids = names.get(cited)
@@ -2829,6 +2832,10 @@ class PageIndexClient:
                                      "page": citation["page"]}
             if "box" in citation:
                 entry["box"] = citation["box"]
+            if page_line_range and entry["doc_id"]:
+                lines = page_line_range(entry["doc_id"], entry["page"])
+                if lines:
+                    entry["line_start"], entry["line_end"] = lines
             block_id = citation.get("block_id")
             if block_id:
                 entry["block_id"] = block_id
@@ -2883,6 +2890,12 @@ class PageIndexClient:
             return (f"[[{i}]](#pageindex-citation-{i:02d})"
                     f"{m.groupdict().get('inner') or ''}")
 
+        for entry in entries:
+            if "line_start" in entry:
+                # a citation that knows its lines (Markdown) also reads as
+                # [notes.md, p. 3, lines 120–164]
+                entry["label"] = (f"[{entry['document']}, p. {entry['page']}, "
+                                  f"lines {entry['line_start']}–{entry['line_end']}]")
         return {
             "answer": _CITE_TAG_RE.sub(link, _OLD_CITATION_RE.sub(link, answer)),
             "citations": [{"anchor": f"pageindex-citation-{i:02d}", "index": i,

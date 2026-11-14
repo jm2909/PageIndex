@@ -13,3 +13,7 @@ if_add_node_id: "yes"
 if_add_node_summary: "yes"
 if_add_doc_description: "no"
 if_add_node_text: "no"
+# Markdown only (no effect on PDFs): target tokens per Markdown page, and
+# whether to give the Markdown headings to the indexer as its table of contents.
+md_page_tokens: 800
+md_heading_hint: "no"

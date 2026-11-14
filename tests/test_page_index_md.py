@@ -42,7 +42,8 @@ class MarkdownCliTest(unittest.TestCase):
             env["CHATGPT_API_KEY"] = ""
             env["PYTHONPATH"] = str(script.parent)
             res = subprocess.run(
-                [sys.executable, str(script), "--md_path", str(md)],
+                [sys.executable, str(script), "--md_path", str(md),
+                 "--md-indexer", "headings"],  # the old indexer is opt-in (FR-016)
                 capture_output=True, cwd=tmp, env=env, timeout=180)
             self.assertEqual(res.returncode, 0, res.stderr.decode())
             out = Path(tmp) / "results" / "notes_structure.json"
@@ -88,6 +89,7 @@ class MarkdownCliTest(unittest.TestCase):
             res = subprocess.run(
                 [sys.executable, str(drv), str(script),
                  "--md_path", str(md),
+                 "--md-indexer", "headings",  # the old indexer is opt-in (FR-016)
                  "--if-add-node-summary", "yes",
                  "--if-add-doc-description", "yes",
                  "--summary-token-threshold", "1",

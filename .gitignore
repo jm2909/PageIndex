@@ -7,3 +7,8 @@ logs/
 .pageindex/
 dist/
 /results/
+.claude
+.github
+.specify
+*.pyc
+*.egg-info/
