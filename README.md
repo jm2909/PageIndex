@@ -104,6 +104,20 @@ print(answer)
 
 **Have a Claude subscription?** PageIndex can use your subscription to call Claude models through Claude Code: usage is covered by your plan, no API key needed. Install with `pip install -U "pageindex[claude]"`, then prefix model names with `claude-code/`, e.g., `index="claude-code/haiku"`, `chat="claude-code/opus"` (see [example](https://github.com/VectifyAI/PageIndex/blob/main/cookbook/pageindex-claude-subscription.py)).
 
+### Optimize with Cache-Aware Prompts
+
+For Claude users, PageIndex supports **cache-aware prompt layout** to reduce indexing costs by up to 88% using [Anthropic prompt caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching). Enable it with `prompt_layout="cache"`:
+
+```python
+from pageindex import PageIndexLocalClient
+
+client = PageIndexLocalClient(
+    index={"storage_path": "./my_index", "model": "anthropic/claude-haiku-5-5", "prompt_layout": "cache"}
+)
+```
+
+**Results:** 88.7% of prompt tokens read from cache, with identical answer quality. See [CACHE_LAYOUT.md](./CACHE_LAYOUT.md) for details, pricing, and performance benchmarks.
+
 ### Markdown documents
 
 Markdown files (`.md`, `.markdown`) go through the same standard-mode indexing as PDFs, with the same steps and prompts, and produce the same tree. The file is cut into pages of about 800 tokens (`md_page_tokens` in `config.yaml`) without changing a byte: no page break lands inside a code block, table, list, blockquote, HTML block or front matter. Each section and each chat citation also gives its original line range, e.g. `[notes.md, p. 3, lines 120–164]`.
