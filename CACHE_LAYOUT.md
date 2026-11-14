@@ -31,6 +31,32 @@ client = PageIndexLocalClient(
 result = client.submit_document("path/to/document.pdf", mode="standard")
 ```
 
+### Use Different Models for Indexing vs Chat
+
+You can use a **basic model for indexing** (to save costs) and a **more capable model for chat** (for better retrieval):
+
+```python
+from pageindex import PageIndexLocalClient
+
+# Use Haiku (basic, cheap) for indexing with cache layout
+# Use Opus (more capable) for chat/retrieval
+client = PageIndexLocalClient(
+    index={"storage_path": "./my_index", "model": "anthropic/claude-haiku-5-5", "prompt_layout": "cache"},
+    chat_model="anthropic/claude-opus-5-5"  # Different model for chat
+)
+
+# Index: uses Haiku with cache-aware layout (low cost)
+result = client.submit_document("document.pdf", mode="standard")
+
+# Chat: uses Opus for better reasoning over the indexed tree
+answer = client.chat("What are the key risks?", doc_id=result["doc_id"])
+```
+
+**Why this matters:**
+- **Indexing**: A basic model (Haiku) works well for tree generation and summarization
+- **Chat**: A more capable model (Opus/Sonnet) excels at reasoning through the tree to find relevant information
+- **Cache layout + model split = maximum efficiency**: You get cost savings from caching + quality from a better chat model
+
 ### Command Line
 
 If using the PageIndex CLI:
@@ -359,6 +385,25 @@ Cache layout guarantees identical prompts, but:
 
 ## Performance Tuning
 
+### Cost-Quality Sweet Spot
+
+The optimal configuration pairs a **cheap index model** with a **capable chat model**:
+
+```python
+from pageindex import PageIndexLocalClient
+
+# Cost-optimized: Haiku for indexing, Opus for chat
+client = PageIndexLocalClient(
+    index={"storage_path": "./idx", "model": "anthropic/claude-haiku-5-5", "prompt_layout": "cache"},
+    chat_model="anthropic/claude-opus-5-5"
+)
+```
+
+**Why this works:**
+- **Indexing**: Haiku + cache layout = 70% cost savings, tree quality unchanged
+- **Chat**: Opus = better reasoning on tree traversal, higher answer accuracy
+- **Total cost**: Still lower than using Opus for both indexing and chat
+
 ### Optimize Cache Warm-Up
 
 The system block is cached first, so minimize its size while keeping instructions clear:
@@ -472,6 +517,19 @@ pytest tests/test_prompt_layout.py::test_system_block_size -v
 ### Q: Can I mix cache and standard layouts?
 
 **A:** Yes. You can index some documents with `prompt_layout="cache"` and others with the default `"standard"` layout. The feature is opt-in per call, so you have full control.
+
+### Q: Can I use a different chat model than my index model?
+
+**A:** Yes! In fact, this is **recommended** for best cost/quality balance:
+
+```python
+client = PageIndexLocalClient(
+    index={"storage_path": "./idx", "model": "anthropic/claude-haiku-5-5", "prompt_layout": "cache"},
+    chat_model="anthropic/claude-opus-5-5"  # More capable for chat
+)
+```
+
+Use a basic model (Haiku) for indexing with cache layout (saves cost), and a more capable model (Opus/Sonnet) for chat (better retrieval reasoning). This is the most efficient approach.
 
 ---
 
