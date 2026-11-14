@@ -56,10 +56,9 @@ Reply: {"thinking": "<why you think there is or is not a table of contents>", "t
 
 2. toc_extraction - Reading or transforming a table of contents. The request carries its own detailed instructions and reply format after the task line; follow them exactly.
 
-3. outline_whole - Generate the hierarchical tree structure (the outline) of the given pages. The structure value is the numbering of the section in the hierarchy: the first section is "1", its first subsection "1.1", its second subsection "1.2", and so on. For physical_index give the page where the section starts, keeping the "<physical_index_X>" format. List the sections in document order and do not invent sections that are not in the text.
-Reply: [{"structure": "<x.x.x>", "title": "<original title of the section>", "physical_index": "<physical_index_X>"}, ...]
+3. outline_whole - Generate the hierarchical tree structure (the outline) of the whole document. The request carries its own detailed instructions and reply format after the task line; follow them exactly.
 
-4. placement_check - For the section title given in the request and the given page text, answer two questions. appears: does the section appear or start anywhere in the page text? starts_at_top: is the section title the first content of the page text? If there is other content before the title, starts_at_top is "no"; if the title is the first content, it is "yes"; if the title does not appear, it is "no".
+4. placement_check - You are given a section title and exactly one page's text: the whole document part before the task line is that single page. Search that page's text directly - do not use any "Page N" labels inside headings to guess where a section is, because the text you were given is already one page. appears: does the section title appear or start anywhere in that page's text? Do fuzzy matching: ignore case, extra spaces, line breaks and Markdown heading markers, so a title "Foo" appears in "## Foo". starts_at_top: is the section title the first content of that page's text? "no" if other content comes before it, "yes" if it is the first content, "no" if the title does not appear at all.
 Reply: {"thinking": "<why>", "appears": "yes or no", "starts_at_top": "yes or no"}
 
 5. toc_index_fixer - Find the page where the given section starts, looking only at the pages a-b named in the request.

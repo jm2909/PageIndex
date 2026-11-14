@@ -202,14 +202,14 @@ def test_redaction_applied_to_blocks():
 def test_merged_placement_check_one_call_per_section(tmp_path):
     result, fake = run(pdf_doc(tmp_path))
     assert not {"check_title_appearance", "check_title_start"} & set(fake.templates)
-    checks = [(field(q, "title"), field(q, "page")) for _, _, q in blocks_of(fake, "placement_check")]
+    checks = [(field(q, "title"), document) for _, document, q in blocks_of(fake, "placement_check")]
     (_, _, _), = blocks_of(fake, "outline_whole")
     outline = json.loads(fake.replies[fake.templates.index("outline_whole")])
     assert len(checks) == len(outline) == len(set(checks))  # start check served from the memo
 
     # a fix-up that moves a section's start asks once more, for the new page only
     _, fixed = run(pdf_doc(tmp_path), fake=FakeLLM(verify_no_first=2))
-    pairs = [(field(q, "title"), field(q, "page")) for _, _, q in blocks_of(fixed, "placement_check")]
+    pairs = [(field(q, "title"), document) for _, document, q in blocks_of(fixed, "placement_check")]
     assert len(pairs) == len(set(pairs)) > len(outline)
 
 

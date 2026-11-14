@@ -29,7 +29,7 @@ _LAZY = {
     "optimize_tree": ".tree_optimize",
     "md_to_tree": ".page_index_md",
 }
-_SUBMODULES = {"agent_tools", "chat_stream", "client", "cloud_api", "errors",
+_SUBMODULES = {"agent_tools", "cache_layout", "chat_stream", "client", "cloud_api", "errors",
                "flash", "imaging", "integrations", "local_api", "local_chat",
                "local_store", "mcp_bridge", "page_index_classic",
                "page_index_md", "retry", "tree_optimize", "types", "utils"}

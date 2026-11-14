@@ -71,7 +71,9 @@ def _layout_call(model, blocks, **kw):
 def _toc_completion(model, prompt, chat_history=None, return_finish_reason=False, **kw):
     """Dispatch TOC-extraction calls through cache layout when active.
 
-    In cache mode: prompt is the free-text details (instructions); system/doc come from blocks.
+    In cache mode: the prompt's instructions become the question's details, the
+    system block is cached, and a continuation's prompt is the follow-up after
+    its chat_history (so the cached prefix stays unchanged).
     In standard mode: use the prompt as-is via llm_completion.
     """
     run = cache_layout.active()
@@ -82,14 +84,14 @@ def _toc_completion(model, prompt, chat_history=None, return_finish_reason=False
             details = details[len(_SYSTEM_HARDENING):].lstrip()
         with llm_template("toc_extraction"):
             blocks = run.blocks("toc_extraction", details=details)
-            response = _layout_call(model, blocks, chat_history=chat_history,
-                                   return_finish_reason=return_finish_reason, **kw)
+            response = llm_completion(model=model, prompt=prompt, layout_blocks=blocks,
+                                      chat_history=chat_history,
+                                      return_finish_reason=return_finish_reason, **kw)
+            run.mark_warm(blocks)
         if return_finish_reason:
-            # _layout_call wraps llm_completion, which may return (text, finish_reason)
             if isinstance(response, tuple):
                 return response
-            # Wrap in tuple if needed
-            return response, "stop"
+            return response, "finished"
         return response
     else:
         # Standard path
@@ -136,7 +138,7 @@ async def check_title_appearance(item, page_list, start_index=1, model=None):
     if run:
         with llm_template("placement_check"):
             blocks = run.blocks("placement_check", cache_layout.page_block(page_text),
-                               title=cache_layout.redact(" ".join(title.split())), page=page_number)
+                               title=cache_layout.redact(" ".join(title.split())))
             response = await _layout_acall(model, blocks)
         response = extract_json(response)
         # Store in memo for future lookups by check_title_appearance_in_start
@@ -146,21 +148,21 @@ async def check_title_appearance(item, page_list, start_index=1, model=None):
     else:
         # Standard path
         prompt = _SYSTEM_HARDENING + f"""
-        Your job is to check if the given section appears or starts in the given page_text.
+    Your job is to check if the given section appears or starts in the given page_text.
 
-        Note: do fuzzy matching, ignore any space inconsistency in the page_text.
+    Note: do fuzzy matching, ignore any space inconsistency in the page_text.
 
-        The given section title is {title}.
-        The given page_text is:
-        {_secure_doc_text(page_text)}
-
-        Reply format:
-        {{
-
-            "thinking": <why do you think the section appears or starts in the page_text>
-            "answer": "yes or no" (yes if the section appears or starts in the page_text, no otherwise)
-        }}
-        Directly return the final JSON structure. Do not output anything else."""
+    The given section title is {title}.
+    The given page_text is:
+    {_secure_doc_text(page_text)}
+    
+    Reply format:
+    {{
+        
+        "thinking": <why do you think the section appears or starts in the page_text>
+        "answer": "yes or no" (yes if the section appears or starts in the page_text, no otherwise)
+    }}
+    Directly return the final JSON structure. Do not output anything else."""
 
         with llm_template("check_title_appearance"):
             response = await llm_acompletion(model=model, prompt=prompt)
@@ -182,7 +184,7 @@ async def check_title_appearance_in_start(title, page_text, page_number=None, mo
         # Miss: make a placement_check call
         with llm_template("placement_check"):
             blocks = run.blocks("placement_check", cache_layout.page_block(page_text),
-                               title=cache_layout.redact(" ".join(title.split())), page=page_number)
+                               title=cache_layout.redact(" ".join(title.split())))
             response = await _layout_acall(model, blocks)
         response = extract_json(response)
         run.memo[key] = response  # Store for future lookups
@@ -190,23 +192,23 @@ async def check_title_appearance_in_start(title, page_text, page_number=None, mo
     else:
         # Standard path
         prompt = _SYSTEM_HARDENING + f"""
-        You will be given the current section title and the current page_text.
-        Your job is to check if the current section starts in the beginning of the given page_text.
-        If there are other contents before the current section title, then the current section does not start in the beginning of the given page_text.
-        If the current section title is the first content in the given page_text, then the current section starts in the beginning of the given page_text.
+    You will be given the current section title and the current page_text.
+    Your job is to check if the current section starts in the beginning of the given page_text.
+    If there are other contents before the current section title, then the current section does not start in the beginning of the given page_text.
+    If the current section title is the first content in the given page_text, then the current section starts in the beginning of the given page_text.
 
-        Note: do fuzzy matching, ignore any space inconsistency in the page_text.
+    Note: do fuzzy matching, ignore any space inconsistency in the page_text.
 
-        The given section title is {title}.
-        The given page_text is:
-        {_secure_doc_text(page_text)}
-
-        reply format:
-        {{
-            "thinking": <why do you think the section appears or starts in the page_text>
-            "start_begin": "yes or no" (yes if the section starts in the beginning of the page_text, no otherwise)
-        }}
-        Directly return the final JSON structure. Do not output anything else."""
+    The given section title is {title}.
+    The given page_text is:
+    {_secure_doc_text(page_text)}
+    
+    reply format:
+    {{
+        "thinking": <why do you think the section appears or starts in the page_text>
+        "start_begin": "yes or no" (yes if the section starts in the beginning of the page_text, no otherwise)
+    }}
+    Directly return the final JSON structure. Do not output anything else."""
 
         with llm_template("check_title_start"):
             response = await llm_acompletion(model=model, prompt=prompt)
@@ -261,19 +263,19 @@ def toc_detector_single_page(content, model=None):
     else:
         # Standard path
         prompt = _SYSTEM_HARDENING + f"""
-        Your job is to detect if there is a table of content provided in the given text.
+    Your job is to detect if there is a table of content provided in the given text.
 
-        Given text:
-        {_secure_doc_text(content)}
+    Given text:
+    {_secure_doc_text(content)}
 
-        return the following JSON format:
-        {{
-            "thinking": <why do you think there is a table of content in the given text>
-            "toc_detected": "<yes or no>",
-        }}
+    return the following JSON format:
+    {{
+        "thinking": <why do you think there is a table of content in the given text>
+        "toc_detected": "<yes or no>",
+    }}
 
-        Directly return the final JSON structure. Do not output anything else.
-        Please note: abstract,summary, notation list, figure list, table list, etc. are not table of contents."""
+    Directly return the final JSON structure. Do not output anything else.
+    Please note: abstract,summary, notation list, figure list, table list, etc. are not table of contents."""
 
         with llm_template("toc_detector"):
             response = llm_completion(model=model, prompt=prompt)
@@ -670,6 +672,25 @@ def add_page_number_to_toc(part, structure, model=None):
     Directly return the final JSON structure. Do not output anything else."""
 
     part_text = ''.join(part) if isinstance(part, list) else part
+
+    # Cache layout: whole-document block, question names the page range a-b and
+    # carries the structure; keep every entry, in order, filling page numbers.
+    run = cache_layout.active()
+    if run:
+        markers = sorted({int(m) for m in re.findall(r"<physical_index_(\d+)>", part_text)})
+        pages = f"{markers[0]}-{markers[-1]}" if markers else "1-1"
+        with llm_template("add_page_number"):
+            blocks = run.blocks("add_page_number", run.whole_document(), pages=pages,
+                                structure=json.dumps(structure, ensure_ascii=False))
+            current_json_raw = _layout_call(model, blocks)
+        json_result = extract_json(current_json_raw)
+        if isinstance(json_result, dict):
+            json_result = [json_result]
+        for item in json_result:
+            if isinstance(item, dict) and 'start' in item:
+                del item['start']
+        return json_result
+
     prompt = (
         _SYSTEM_HARDENING + fill_prompt_seq
         + f"\n\nCurrent Partial Document:\n{_secure_doc_text(part_text)}"
@@ -740,9 +761,7 @@ def generate_toc_continue(toc_content, part, model=None):
         raise Exception(f'finish reason: {finish_reason}')
     
 ### add verify completeness
-def generate_toc_init(part, model=None):
-    print('start generate_toc_init')
-    prompt = """
+_OUTLINE_TREE_INSTRUCTIONS = """
     You are an expert in extracting hierarchical tree structure, your task is to generate the tree structure of the document.
 
     The structure variable is the numeric system which represents the index of the hierarchy section in the table of contents. For example, the first section has structure index 1, the first subsection has structure index 1.1, the second subsection has structure index 1.2, etc.
@@ -766,6 +785,11 @@ def generate_toc_init(part, model=None):
 
     Directly return the final JSON structure. Do not output anything else."""
 
+
+def generate_toc_init(part, model=None):
+    print('start generate_toc_init')
+    prompt = _OUTLINE_TREE_INSTRUCTIONS
+
     prompt = _SYSTEM_HARDENING + prompt + '\nGiven text\n:' + _secure_doc_text(part)
     with llm_template("outline_init"):
         response, finish_reason = llm_completion(model=model, prompt=prompt, return_finish_reason=True)
@@ -780,10 +804,16 @@ def process_no_toc(page_list, start_index=1, model=None, logger=None):
     run = cache_layout.active()
     if run and cache_layout.whole_document_fits(run, model):
         with llm_template("outline_whole"):
-            pages = f"{start_index}-{start_index + len(page_list) - 1}"
-            blocks = run.blocks("outline_whole", run.whole_document(), pages=pages)
+            # The whole-document block already holds every page; `pages` only
+            # names a sub-range when process_large_node_recursively re-outlines
+            # a slice of the document.
+            pages = None
+            if len(page_list) != len(run.page_list):
+                pages = f"{start_index}-{start_index + len(page_list) - 1}"
+            blocks = run.blocks("outline_whole", run.whole_document(), pages=pages,
+                                details=_OUTLINE_TREE_INSTRUCTIONS)
             response, finish_reason = _layout_call(model, blocks, return_finish_reason=True)
-        if finish_reason == "stop":
+        if finish_reason == "finished":
             toc_with_page_number = extract_json(response)
             if isinstance(toc_with_page_number, list):
                 toc_with_page_number = _validate_physical_indices(
@@ -1017,7 +1047,21 @@ def check_toc(page_list, opt=None):
 
 
 ################### fix incorrect toc #########################################################
-async def single_toc_item_index_fixer(section_title, content, model=None):
+async def single_toc_item_index_fixer(section_title, content, model=None, pages=None):
+    run = cache_layout.active()
+    if run:
+        # Cache layout: whole-document block, question names the page range a-b.
+        with llm_template("toc_index_fixer"):
+            blocks = run.blocks("toc_index_fixer", run.whole_document(),
+                                title=cache_layout.redact(" ".join(str(section_title).split())),
+                                pages=pages)
+            response = await _layout_acall(model, blocks)
+        json_content = extract_json(response)
+        physical_index = json_content.get('physical_index')
+        if physical_index is None:
+            return None
+        return convert_physical_index_to_int(physical_index)
+
     toc_extractor_prompt = """
     You are given a section title and several pages of a document, your job is to find the physical index of the start page of the section in the partial document.
 
@@ -1109,7 +1153,21 @@ async def fix_incorrect_toc(toc_with_page_number, page_list, incorrect_results, 
                 continue
         content_range = ''.join(page_contents)
         
-        physical_index_int = await single_toc_item_index_fixer(incorrect_item['title'], content_range, model)
+        # Cache layout: the fixer reads the whole document and the question
+        # names the page range it should search. The section is wrong on its
+        # current page, so search from the page after it up to the next correct
+        # section.
+        if cache_layout.active():
+            current_page = toc_with_page_number[list_index].get('physical_index')
+            a = (current_page + 1) if current_page is not None else (prev_correct + 1)
+            b = next_correct
+            if a > b:
+                a = b
+            pages = f"{a}-{b}"
+        else:
+            pages = None
+
+        physical_index_int = await single_toc_item_index_fixer(incorrect_item['title'], content_range, model, pages=pages)
         
         # Check if the result is correct
         check_item = incorrect_item.copy()

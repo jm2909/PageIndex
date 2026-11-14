@@ -1,0 +1,147 @@
+{
+  "doc_name": "Data_Center_Colocation_Agreement_10p.md",
+  "source_type": "markdown",
+  "doc_description": "This synthetic colocation and managed facilities agreement between Cedar Peak Infrastructure LLC (Provider) and Glasshaven Analytics Inc. (Customer), effective 15 February 2027, licenses Suite D-14 in Building DC-2 at the Cedar Peak Data Campus in Briarfield, Colorado, and sets its 36-month term, USD 18,600 monthly fee, power and service-level terms, security, and exit rules.",
+  "structure": [
+    {
+      "title": "Page 001 - Agreement, Parties and Effective Date",
+      "node_id": "0000",
+      "start_index": 1,
+      "end_index": 1,
+      "line_start": 9,
+      "line_end": 24,
+      "key_items": [
+        "1.1 Parties",
+        "1.2 Contract Documents",
+        "1.3 Designated Contacts"
+      ],
+      "summary": "This synthetic colocation and managed facilities agreement, for Building DC-2 at the Cedar Peak Data Campus in fictional Briarfield, Colorado, is between Cedar Peak Infrastructure LLC (Provider) and Glasshaven Analytics Inc. (Customer), effective 15 February 2027. It sets out contract documents, precedence rules, and designated operational, technical and legal contacts. Customer receives a contractual license, not a lease, for Suite D-14 with twelve racks of 42 rack units each, a committed 96 kW across dual A/B feeds, and up to four cross-connects ordered by signature. Provider controls common areas and emergency exits. The initial term runs 36 months from 1 April 2027 to 31 March 2030, with a five-business-day acceptance window. Renewal is one 24-month term on 120 days' notice at list price less 8 percent. Fees are USD 18,600 per month for the license, metered electricity at USD 0.14 per kWh, and USD 175 per month per cross-connect."
+    },
+    {
+      "title": "Page 002 - Licensed Space and Authorized Equipment",
+      "node_id": "0001",
+      "start_index": 1,
+      "end_index": 1,
+      "line_start": 25,
+      "line_end": 40,
+      "key_items": [
+        "2.1 Space Allocation",
+        "2.2 Power and Connectivity",
+        "2.3 Access Boundaries"
+      ],
+      "summary": "A colocation and managed facilities agreement between Cedar Peak Infrastructure LLC (Provider) and Glasshaven Analytics Inc. (Customer), effective 15 February 2027, for a managed environment at the Cedar Peak Data Campus in Briarfield, Colorado. It defines the contract documents, with signed change orders controlling over the order form, agreement and schedules, and names operational, technical and contractual contacts for each party. Customer receives a contractual license (not a lease) for Suite D-14 with twelve racks of 42 rack units each, a committed 96 kW power allocation on dual A/B feeds, and up to four cross-connects ordered separately. Provider controls common areas, and Customer may change equipment only in its own racks. The initial term runs 36 months from 1 April 2027 to 31 March 2030, with a five-Business-Day acceptance test after the Ready for Service notice. Renewal is for one 24-month term on 120 days' notice, at list price less 8 percent. Fees are USD 18,600 per month, metered electricity at USD 0.14 per kWh, and cross-connects at USD 175 each per month."
+    },
+    {
+      "title": "Page 003 - Term, Acceptance and Renewal",
+      "node_id": "0002",
+      "start_index": 1,
+      "end_index": 1,
+      "line_start": 41,
+      "line_end": 56,
+      "key_items": [
+        "3.1 Initial Term",
+        "3.2 Acceptance Process",
+        "3.3 Renewal"
+      ],
+      "summary": "This Colocation and Managed Facilities Agreement, effective 15 February 2027, is between Cedar Peak Infrastructure LLC (Provider) and Glasshaven Analytics Inc. (Customer) for a managed environment hosting production analytics workloads at the Cedar Peak Data Campus in Briarfield, Colorado. The contract documents are the order form, this agreement, Service Schedules A and B, and signed change orders, with signed change orders taking precedence on the subjects they change. Each party names operational, technical and contractual contacts. Customer receives a non-lease license to Suite D-14 in Building DC-2, with twelve racks of 42 rack units each, 96 kW committed power on dual A/B feeds, and up to four cross-connects by signed order. Provider controls common areas, and Customer may use only its allocated racks. The initial 36-month term runs from 1 April 2027 to 31 March 2030, with a five-business-day acceptance window and an optional 24-month renewal at 120 days' notice and an 8 percent discount. The monthly license fee is USD 18,600, metered electricity is billed at USD 0.14 per kWh, and cross-connects cost USD 175 each per month. The security section heading has no content on this page."
+    },
+    {
+      "title": "Page 004 - Fees, Billing and Security",
+      "node_id": "0003",
+      "start_index": 1,
+      "end_index": 2,
+      "line_start": 57,
+      "line_end": 72,
+      "key_items": [
+        "4.1 Recurring Charges",
+        "4.2 Payment and Deposit",
+        "4.3 Annual Adjustment"
+      ],
+      "summary": "Agreement between Cedar Peak Infrastructure LLC (Provider) and Glasshaven Analytics Inc. (Customer), effective 15 February 2027, for Building DC-2. It covers contract documents, designated contacts, and a license for Suite D-14 (twelve 42U racks, 96 kW dual-feed power, up to four cross-connects). The 36-month term runs 1 April 2027 to 31 March 2030, with five-day acceptance and an optional 24-month renewal at an 8% discount. Fees are USD 18,600 monthly plus metered power at USD 0.14/kWh, USD 175 per cross-connect, a USD 37,200 deposit, and 3% annual increases from 2028. Service levels target 99.95% power availability, with 2% credits per 30 minutes of excess outage capped at 20%. Security includes CCTV, eight authorized technicians, visitor escorts and four-hour breach notice. Maintenance runs Sundays 02:00-06:00 with seven days notice; remote hands cost USD 110/hour beyond eight monthly hours. Customer keeps data ownership; Provider does not back up applications."
+    },
+    {
+      "title": "Page 005 - Service Levels and Outage Credits",
+      "node_id": "0004",
+      "start_index": 2,
+      "end_index": 2,
+      "line_start": 73,
+      "line_end": 88,
+      "key_items": [
+        "5.1 Availability Target",
+        "5.2 Incident Severity",
+        "5.3 Credit Mechanism"
+      ],
+      "summary": "The document is a data center colocation service agreement covering payment, service levels, security, maintenance and data responsibility. Invoices are issued on the first Business Day of each month, payable net 30. Customer keeps a refundable USD 37,200 security deposit that may cover undisputed overdue charges after written notice and a ten-day cure period. From 1 April 2028 the recurring license charge rises 3 percent each service anniversary, and power rates may change only with 60 days' notice and documented energy cost changes. Provider commits to 99.95 percent monthly power availability at the rack PDU demarcation point. A loss of both power feeds is Severity 1 (engineer acknowledgement within 15 minutes), and single-feed degradation is Severity 2 (within 60 minutes). Credits of 2 percent of the monthly license charge apply per full 30 minutes of excess downtime, capped at 20 percent monthly, with claims due within 20 days. Physical security includes continuous CCTV with 90-day retention, up to eight authorized technicians for Suite D-14, 24-hour visitor registration, and notice within four hours of confirmed unauthorized access. Maintenance is normally Sunday 02:00 to 06:00 Mountain Time with seven days' notice. Remote hands include eight hours monthly, with extra time at USD 110 per hour. Customer change method statements are due 48 hours ahead, and Provider may reject risky changes. Customer retains ownership and control of its data, and Provider does not provide application backup."
+    },
+    {
+      "title": "Page 006 - Physical Security and Visitor Controls",
+      "node_id": "0005",
+      "start_index": 2,
+      "end_index": 2,
+      "line_start": 89,
+      "line_end": 104,
+      "key_items": [
+        "6.1 Facility Controls",
+        "6.2 Authorized Personnel",
+        "6.3 Security Events"
+      ],
+      "summary": "The document sets terms for colocation power and facility services. Invoices issue on the first Business Day monthly, payable net 30. Customer keeps a refundable USD 37,200 security deposit, which may cover undisputed overdue charges after written notice and a ten-day cure period. From 1 April 2028 the recurring license charge rises 3% each service anniversary, and power rates change only with 60 days' notice and documented energy cost changes. Provider commits to 99.95% monthly power availability at the rack PDU, excluding approved maintenance. Loss of both power feeds is Severity 1 (15-minute acknowledgement); single-feed degradation is Severity 2 (60 minutes). Credits of 2% of the monthly license charge apply per full 30 minutes of excess downtime, capped at 20%, with claims due within 20 days. Security includes continuous CCTV, badge logs, a staffed desk, and 90-day recording retention. Customer may name eight authorized technicians for Suite D-14, and other visitors need 24 hours' registration and escort. Unauthorized access must be reported within four hours. Routine maintenance occurs Sundays 02:00 to 06:00 Mountain Time with seven days' notice. Eight remote-hands hours are included monthly, with extra help at USD 110 per hour. Customer changes need a method statement 48 hours ahead and may be rejected if they threaten cooling, fire protection, or neighbors. Customer owns and controls its data, Provider has no inspection rights, and application backup is not provided."
+    },
+    {
+      "title": "Page 007 - Maintenance, Change Windows and Remote Hands",
+      "node_id": "0006",
+      "start_index": 2,
+      "end_index": 2,
+      "line_start": 105,
+      "line_end": 120,
+      "key_items": [
+        "7.1 Maintenance Window",
+        "7.2 Remote Hands",
+        "7.3 Customer Change Control"
+      ],
+      "summary": "The document is a data center colocation agreement between Provider and Customer. Section 4 covers payment: invoices are issued on the first Business Day of each month and are payable net 30 days. Customer must keep a refundable USD 37,200 security deposit, which Provider may apply to undisputed overdue charges after written notice and a ten-day cure period. From 1 April 2028 the recurring license charge rises 3 percent on each service anniversary, and power rates may change only with 60 days' notice and documented energy cost changes. Section 5 sets service levels: 99.95 percent monthly power availability at the rack PDU demarcation point, with Severity 1 (loss of both feeds) acknowledged within 15 minutes and Severity 2 (single-feed degradation) within 60 minutes. Credits of 2 percent of the monthly license charge apply per full 30 minutes of excess downtime, capped at 20 percent per month, and must be claimed within 20 days. Section 6 covers physical security: continuous CCTV and badge logs, 90-day recording retention, up to eight authorized technicians, 24-hour visitor registration, and notice within four hours of confirmed unauthorized access. Section 7 covers maintenance on Sundays 02:00 to 06:00 Mountain Time with seven days' notice, eight free remote-hands hours monthly, USD 110 per hour beyond that, and 48-hour method statements for material changes. Section 8 states that Customer keeps ownership and control of its data, Provider has no right to inspect it, and application backup is not provided."
+    },
+    {
+      "title": "Page 008 - Data Responsibility and Confidentiality",
+      "node_id": "0007",
+      "start_index": 2,
+      "end_index": 3,
+      "line_start": 121,
+      "line_end": 136,
+      "key_items": [
+        "8.1 Data Boundary",
+        "8.2 Confidential Information",
+        "8.3 Disclosures"
+      ],
+      "summary": "This colocation power and facilities agreement sets out payment, service levels, security, maintenance, data, liability and exit terms. Invoices issue on the first Business Day monthly, payable net 30, with a refundable USD 37,200 security deposit that may cover undisputed overdue charges after notice and a ten-day cure. From 1 April 2028 the recurring license charge rises 3 percent each service anniversary, and power rates may change only on 60 days' notice with documented energy cost changes. Provider commits to 99.95 percent monthly power availability at the rack PDU point. Total loss of both feeds is Severity 1 (15-minute acknowledgement); single-feed degradation is Severity 2 (60 minutes). Credits of 2 percent of the monthly charge apply per full 30 minutes of excess downtime, capped at 20 percent, with claims due within 20 days. Security covers CCTV retained 90 days, eight authorized technicians, 24-hour visitor registration, and breach notice within four hours. Routine maintenance is Sunday 02:00-06:00 Mountain Time with seven days' notice. Remote hands include eight hours monthly, then USD 110 per hour. Customer changes need a 48-hour method statement. Customer owns its data, Provider does no backup, confidentiality lasts three years, and legal disclosures are limited. Liability is capped at twelve months of charges, with insurance requirements. Termination needs 30-day cure for breach and 15 days for nonpayment. Equipment removal takes 20 Business Days, formal notices go by courier or registered mail, and Colorado law and Denver venue govern."
+    },
+    {
+      "title": "Page 009 - Liability, Insurance and Termination",
+      "node_id": "0008",
+      "start_index": 3,
+      "end_index": 3,
+      "line_start": 137,
+      "line_end": 152,
+      "key_items": [
+        "9.1 Liability Cap",
+        "9.2 Insurance",
+        "9.3 Termination for Cause"
+      ],
+      "summary": "The agreement covers confidentiality, liability, insurance, termination, exit and governing law. Each party may use the other's Confidential Information only to perform the agreement and must protect it with at least reasonable care. Ordinary confidentiality obligations survive three years after expiration, and trade secrets stay protected as long as they qualify under law. Compelled disclosures are allowed only as legally required, with prompt notice where permitted. Access credentials may not go to subcontractors without a documented need to know. Liability is capped at twelve months of recurring license charges, except for fraud, willful misconduct, unpaid fees and confidentiality breaches. Provider must carry USD 2 million per-occurrence general liability and USD 5 million aggregate cyber insurance; Customer insures its own equipment. A material breach allows termination after 30 days' uncured written notice; nonpayment has a 15-day cure period. Customer must remove its equipment within 20 Business Days and restore racks, with Provider offering supervised access and possibly charging storage fees. Formal notices require overnight courier or tracked registered mail, with email as a courtesy copy only. The agreement is governed by Colorado law, with exclusive venue in Denver courts and urgent injunctive relief permitted."
+    },
+    {
+      "title": "Page 010 - Exit, Notices and Governing Law",
+      "node_id": "0009",
+      "start_index": 3,
+      "end_index": 3,
+      "line_start": 153,
+      "line_end": 168,
+      "key_items": [
+        "10.1 Equipment Removal",
+        "10.2 Formal Notices",
+        "10.3 Governing Law"
+      ],
+      "summary": "This agreement excerpt covers confidentiality, liability, insurance, termination, exit, notices, and governing law. Each Party may use the other's Confidential Information only to perform the agreement and must protect it with at least reasonable care. Ordinary confidentiality duties survive three years after expiration, while trade secrets stay protected as long as they qualify under law. Compelled disclosures are allowed only as legally required, with advance notice where permitted. Access credentials may not go to subcontractors without a documented need to know. Liability is capped at twelve months of recurring license charges, except for fraud, willful misconduct, unpaid fees, and confidentiality breaches. Provider must carry USD 2 million general liability and USD 5 million cyber insurance; Customer insures its own equipment. A material breach allows termination after 30 days' uncured notice, and nonpayment has a 15-day cure period. Customer must remove its equipment within 20 Business Days after service ends, with supervised access and possible storage fees. Formal notices require overnight courier or registered mail, with email as a courtesy copy only. Colorado law governs, with exclusive venue in Denver courts."
+    }
+  ]
+}

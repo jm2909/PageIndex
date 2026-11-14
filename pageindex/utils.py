@@ -27,6 +27,11 @@ from pathlib import Path
 from types import SimpleNamespace as config
 import re
 
+# The cache-aware prompt layout (prompt_layout: cache). Imported at module top
+# so the summary/description helpers can dispatch on the active layout run; it
+# imports only the standard library at import time, so this cannot cycle.
+from . import cache_layout
+
 # litellm is imported inside the functions that use it; eager import is slow
 # and fetches a remote model-cost map.
 
@@ -1802,26 +1807,34 @@ class SummaryScheduler:
             task = self._tasks[id(node)] = asyncio.create_task(self._visit(node, depth))
         return task
 
-    async def _ask(self, prompt, prio):
+    async def _ask(self, prompt, prio, blocks=None):
         self._asked = True
         async with self._gate.slot(prio):
             with llm_priority(prio):
-                reply = await self._complete(prompt)
+                reply = await self._complete(prompt, blocks)
         if parse_summary(reply):
             self._answered = True
         return reply
 
-    async def _complete(self, prompt):
+    async def _complete(self, prompt, blocks=None):
         params = self._params
+        run = cache_layout.active() if blocks is not None else None
+
+        async def _send(extra):
+            if run is not None:
+                async with run.warm_first(blocks):
+                    return await llm_acompletion(self._model, prompt, layout_blocks=blocks, **extra)
+            return await llm_acompletion(self._model, prompt, **extra)
+
         if not (self._ladder and params in self._ladder):
-            return await llm_acompletion(self._model, prompt, **params)
+            return await _send(params)
         # a refused rung gives way to the next, then to none sent; the ones
         # passed over are to blame only if the prompt goes through, and the
         # process then remembers them
         refused = []
         for rung in self._ladder[self._ladder.index(params):] + [{}]:
             try:
-                reply = await llm_acompletion(self._model, prompt, **rung)
+                reply = await _send(rung)
             except Exception as e:
                 if rung and _refusal(e):
                     refused.append(rung)
@@ -1849,6 +1862,24 @@ class SummaryScheduler:
         # printed, and its prompt stays byte-identical to the one without this.
         retitle = bool(node.get('_same_page'))
         titles = "; ".join(node.get('key_items') or [])
+
+        # Cache layout: page block + a short question (max_words, and for a
+        # merged same-page leaf, also_title/sections).
+        run = cache_layout.active()
+        if run is not None:
+            fields = {"max_words": self._max_words}
+            if retitle:
+                fields["also_title"] = "yes"
+                fields["sections"] = titles
+            with llm_template("leaf_summary"):
+                blocks = run.blocks("leaf_summary", cache_layout.page_block(text), **fields)
+                reply = await self._ask("", prio, blocks)
+            if retitle:
+                written = parse_title(reply)
+                if written:
+                    node['title'] = written
+            return parse_summary(reply)
+
         ask_title = (f"\n    The text is one page holding several short sections: {titles}. "
                      f"Also return a short title, at most 12 words, naming what the "
                      f"whole page covers." if retitle else "")
@@ -1882,6 +1913,19 @@ class SummaryScheduler:
         listing = json.dumps(
             [{'title': c.get('title', ''), 'summary': c.get('summary', '')} for c in children],
             ensure_ascii=False)
+
+        # Cache layout: no document block; the question carries the section
+        # title, its opening text and the child summaries.
+        run = cache_layout.active()
+        if run is not None:
+            with llm_template("parent_summary"):
+                blocks = run.blocks("parent_summary", None,
+                                    max_words=self._max_words,
+                                    title=cache_layout.redact(str(node.get('title', ''))),
+                                    opening_text=cache_layout.redact(intro),
+                                    subsections=listing)
+                return parse_summary(await self._ask("", prio, blocks))
+
         prompt = f"""You are given a section of a document: the text that opens the section (possibly empty) and the titles and summaries of its subsections.
     Your task is to generate a concise description of everything that is covered in the whole section, summarizing all its points without omitting any type of content.
     Keep the description concise and to the point, avoiding unnecessary details, within {self._max_words} words.
@@ -2019,6 +2063,19 @@ def create_clean_structure_for_description(structure, top_level_only=False):
 
 
 def generate_doc_description(structure, model=None):
+    # Cache layout: whole-document block + the (clean) tree JSON in the question.
+    run = cache_layout.active()
+    if run is not None:
+        try:
+            with llm_template("doc_description"):
+                blocks = run.blocks("doc_description", run.whole_document(),
+                                    structure=json.dumps(structure, ensure_ascii=False))
+                return llm_completion(model, "", layout_blocks=blocks)
+        except Exception as e:
+            if getattr(e, "status_code", None) == 400:
+                return ""
+            raise
+
     prompt = f"""Your are an expert in generating descriptions for a document.
     You are given a structure of a document. Your task is to generate a one-sentence description for the document, which makes it easy to distinguish the document from other documents.
         

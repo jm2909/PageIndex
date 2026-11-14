@@ -43,16 +43,16 @@ Markdown-only: none
 
 | # | PDF | Markdown (lines) |
 |---|---|---|
-| 1 | Contracting Parties and Definitions (p. 1–2) | Page 001 - Contracting Parties and Definitions (lines 9–24) |
-| 2 | Locations, Testing Catalog and Specimen Limits (p. 2–3) | Page 002 - Locations, Testing Catalog and Specimen Limits (lines 25–40) |
-| 3 | Service Period and Implementation (p. 3–4) | Page 003 - Service Period and Implementation (lines 41–56) |
-| 4 | Fee Schedule, Invoice Review and Payment (p. 4–5) | Page 004 - Fee Schedule, Invoice Review and Payment (lines 57–72) |
-| 5 | Pickup Schedules and Chain of Custody (p. 5–6) | Page 005 - Pickup Schedules and Chain of Custody (lines 73–88) |
-| 6 | Turnaround Times and Critical Results (p. 6–7) | Page 006 - Turnaround Times and Critical Results (lines 89–104) |
-| 7 | Quality, Regulatory Compliance and Corrective Action (p. 7–8) | Page 007 - Quality, Regulatory Compliance and Corrective Action (lines 105–120) |
-| 8 | Privacy, Security and Records (p. 8–9) | Page 008 - Privacy, Security and Records (lines 121–136) |
-| 9 | Service Credits, Liability and Termination (p. 9–10) | Page 009 - Service Credits, Liability and Termination (lines 137–152) |
-| 10 | Transition, Notice and Governing Law (p. 10–10) | Page 010 - Transition, Notice and Governing Law (lines 153–168) |
+| 1 | Contracting Parties and Definitions (p. 1–2) | Contracting Parties and Definitions (lines 1–1) |
+| 2 | Locations, Testing Catalog and Specimen Limits (p. 2–3) | Locations, Testing Catalog and Specimen Limits (lines 1–1) |
+| 3 | Service Period and Implementation (p. 3–4) | Service Period and Implementation (lines 1–1) |
+| 4 | Fee Schedule, Invoice Review and Payment (p. 4–5) | Fee Schedule, Invoice Review and Payment (lines 1–72) |
+| 5 | Pickup Schedules and Chain of Custody (p. 5–6) | Pickup Schedules and Chain of Custody (lines 73–73) |
+| 6 | Turnaround Times and Critical Results (p. 6–7) | Turnaround Times and Critical Results (lines 73–73) |
+| 7 | Quality, Regulatory Compliance and Corrective Action (p. 7–8) | Quality, Regulatory Compliance and Corrective Action (lines 73–73) |
+| 8 | Privacy, Security and Records (p. 8–9) | Privacy, Security and Records (lines 73–73) |
+| 9 | Service Credits, Liability and Termination (p. 9–9) | Service Credits, Liability and Termination (lines 73–148) |
+| 10 | Transition, Notice and Governing Law (p. 10–10) | Transition, Notice and Governing Law (lines 149–168) |
 
 ## Solar_Microgrid_Operations_Agreement_10p
 

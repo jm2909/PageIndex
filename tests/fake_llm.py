@@ -59,6 +59,13 @@ def _title_for(body):
     return lines[0][:60] if lines else None
 
 
+def _headings(body):
+    """Markdown ATX headings (1-6 hashes then a space) in a page's text, in
+    order. Several sections may share one page."""
+    return [line.lstrip("#").strip() for line in body.splitlines()
+            if re.match(r"^#{1,6}\s", line.strip())]
+
+
 def _sections(text, skip_first=False):
     pages = _pages_in(text)
     keys = sorted(pages)
@@ -68,6 +75,20 @@ def _sections(text, skip_first=False):
     for n in keys:
         title = _title_for(pages[n])
         if title:
+            out.append({"structure": str(len(out) + 1), "title": title,
+                        "physical_index": f"<physical_index_{n}>"})
+    return out
+
+
+def _all_sections(text):
+    """Every section of a whole-document block: all Markdown headings on each
+    page (falling back to the page's opening line), so a single page holding
+    several headings yields one section each."""
+    pages = _pages_in(text)
+    out = []
+    for n in sorted(pages):
+        titles = _headings(pages[n]) or [t for t in [_title_for(pages[n])] if t]
+        for title in titles:
             out.append({"structure": str(len(out) + 1), "title": title,
                         "physical_index": f"<physical_index_{n}>"})
     return out
@@ -148,7 +169,7 @@ class FakeLLM:
         if name == "toc_detector":
             return json.dumps({"thinking": "", "toc_detected": "no"})
         if name == "outline_whole":
-            sections = _sections(document)
+            sections = _all_sections(document)
             if "pages" in fields:  # a sub-range of the whole-document block
                 a, b = (int(x) for x in re.split(r"[-–]", fields["pages"]))
                 sections = [s for s in sections

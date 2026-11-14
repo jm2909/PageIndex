@@ -1,0 +1,147 @@
+{
+  "doc_name": "Solar_Microgrid_Operations_Agreement_10p.md",
+  "source_type": "markdown",
+  "doc_description": "Operations and maintenance agreement between Westmere Industrial Park Authority and Sunhaven Energy Operations Ltd. for a 7.5 MWdc solar array and 4 MW/16 MWh battery microgrid in the fictional North Basin Industrial Park, Nevada, covering service terms, performance guarantees, fees, incident response, safety, insurance and dispute resolution.",
+  "structure": [
+    {
+      "title": "Page 001 - Parties, Purpose and Contract Structure",
+      "node_id": "0000",
+      "start_index": 1,
+      "end_index": 1,
+      "line_start": 9,
+      "line_end": 24,
+      "key_items": [
+        "Parties",
+        "Purpose",
+        "Order of Precedence"
+      ],
+      "summary": "This operations and maintenance agreement between Westmere Industrial Park Authority (Owner) and Sunhaven Energy Operations Ltd. (Operator), effective 10 March 2027, covers a distributed generation system in the fictional North Basin Industrial Park, Nevada. Operator provides preventive and corrective maintenance, remote monitoring and performance reporting, but may not act as electricity retailer and must follow the Owner's dispatch protocol. Covered assets are a 7.5 MWdc solar array, a 4 MW/16 MWh lithium iron phosphate battery, six medium-voltage transformers and a supervisory control system across two yards. Exclusions include the utility feeder, tenant circuits and third-party telecoms, though incident coordination may apply. Operator must reconcile asset records within 30 days, escalating discrepancies above 2 percent. The term runs 1 May 2027 to 30 April 2032, with one optional two-year extension. Mobilization within 20 Business Days covers induction, spares inspection and monitoring handover, and a joint handover report does not waive pre-existing defects. Fees are USD 42,000 monthly, parts over USD 2,500 need written approval unless safety requires immediate replacement, and emergency call-outs cost USD 145 per technician-hour. Invoicing is monthly in arrears, payable within 25 days, with late interest of 0.75 percent per month."
+    },
+    {
+      "title": "Page 002 - Asset Register and Operating Boundaries",
+      "node_id": "0001",
+      "start_index": 1,
+      "end_index": 1,
+      "line_start": 25,
+      "line_end": 40,
+      "key_items": [
+        "Asset Scope",
+        "Exclusions",
+        "Asset Records"
+      ],
+      "summary": "Operations and maintenance agreement between Westmere Industrial Park Authority (Owner) and Sunhaven Energy Operations Ltd. (Operator), effective 10 March 2027, for a distributed generation system in North Basin Industrial Park. Operator provides preventive and corrective maintenance and remote monitoring, may not act as retailer, and follows the Owner's dispatch protocol; appendices cover assets, safety plan and reporting templates. Covered assets are a 7.5 MWdc solar array, a 4 MW/16 MWh battery, six transformers and a control system; utility feeders, tenant circuits and third-party telecoms are excluded. Asset records are reconciled within 30 days. The five-year term runs to 30 April 2032, with one optional two-year extension; mobilization takes 20 Business Days, and handover reports do not waive pre-existing defects. Owner pays USD 42,000 monthly; parts over USD 2,500 need approval unless safety requires immediate replacement; emergency labor is USD 145 per technician-hour. Invoices are due within 25 days, with 0.75 percent monthly interest on undisputed late balances."
+    },
+    {
+      "title": "Page 003 - Service Term and Mobilization",
+      "node_id": "0002",
+      "start_index": 1,
+      "end_index": 1,
+      "line_start": 41,
+      "line_end": 56,
+      "key_items": [
+        "Term",
+        "Mobilization",
+        "Transition"
+      ],
+      "summary": "This Operations and Maintenance Agreement, effective 10 March 2027, is between Westmere Industrial Park Authority (Owner) and Sunhaven Energy Operations Ltd. (Operator) for a solar and battery microgrid in North Basin Industrial Park, Nevada. Operator provides preventive and corrective maintenance, remote monitoring and performance reporting, but may not act as electricity retailer and must follow the Owner's dispatch protocol. Covered assets are a 7.5 MWdc solar array, a 4 MW / 16 MWh lithium iron phosphate battery, six medium-voltage transformers and the site control system across two yards. Exclusions include the utility feeder, tenant circuits and third-party telecoms. Operator must reconcile asset records within 30 days and escalate discrepancies above 2 percent. The term runs 1 May 2027 to 30 April 2032, with an optional two-year extension. Mobilization takes 20 Business Days, and a joint handover report covers warranty claims and open items. Fees are USD 42,000 monthly. Parts over USD 2,500 need written approval unless urgent, and emergency labor is USD 145 per hour. Invoices are monthly in arrears, payable within 25 days, with 0.75 percent monthly late interest."
+    },
+    {
+      "title": "Page 004 - Service Fee, Variable Costs and Invoicing",
+      "node_id": "0003",
+      "start_index": 1,
+      "end_index": 1,
+      "line_start": 57,
+      "line_end": 72,
+      "key_items": [
+        "Fixed Fee",
+        "Parts and Emergencies",
+        "Invoicing"
+      ],
+      "summary": "Operations and maintenance agreement effective 10 March 2027 between Westmere Industrial Park Authority (Owner) and Sunhaven Energy Operations Ltd. (Operator) for a solar and battery microgrid in North Basin Industrial Park, Nevada. Operator provides maintenance, remote monitoring and reporting, follows the Owner's dispatch protocol and may not act as electricity retailer. Appendices cover assets, safety plan and reporting templates. Covered assets are a 7.5 MWdc solar array, a 4 MW/16 MWh battery, six medium-voltage transformers and the site control system. The utility feeder, tenant circuits and third-party telecoms are excluded. Asset records must be reconciled within 30 days, and discrepancies above 2 percent of critical components need escalation. The term runs 1 May 2027 to 30 April 2032, with one optional two-year extension. Mobilization is due within 20 Business Days. A joint handover report lists open warranty claims, alerts and deferred work, and signing does not waive pre-existing defects. The fixed fee is USD 42,000 monthly. Parts over USD 2,500 need Owner approval unless safety-critical, and after-hours call-out is USD 145 per technician-hour. Invoices are monthly in arrears, payable within 25 days, with late interest of 0.75 percent monthly where lawful."
+    },
+    {
+      "title": "Page 005 - Preventive Maintenance and Response Times",
+      "node_id": "0004",
+      "start_index": 2,
+      "end_index": 2,
+      "line_start": 73,
+      "line_end": 88,
+      "key_items": [
+        "Preventive Plan",
+        "Incident Response",
+        "Deferral"
+      ],
+      "summary": "The document sets out operator obligations for a microgrid service contract. Preventive maintenance includes monthly inverter inspections, quarterly infrared thermography, annual protective relay tests and six-monthly battery fire-suppression checks, all recorded against asset identifiers. Critical incidents need remote acknowledgement within 10 minutes and on-site attendance within two hours; high incidents affecting over 20 percent of capacity need acknowledgement within 30 minutes. Maintenance may be deferred only for weather, permit or safety reasons, with an Owner-approved record. The PV availability guarantee is 98.5 percent, with a fee reduction of 1 percent per 0.5-point shortfall, capped at 6 percent and serving as the sole price remedy. Battery throughput is not guaranteed because Owner controls dispatch. Safety requires permits, lockout-tagout, arc-flash controls, a emergency plan and two drills yearly. Battery waste must be handled as regulated, and electrolyte releases reported within one hour. Monthly reports are due by the fifth Business Day, with telemetry kept 24 months. Critical spares, subcontracting with Owner approval, cybersecurity controls with two-hour breach notice, and insurance limits (USD 3 million general liability, USD 2 million professional liability) are also covered."
+    },
+    {
+      "title": "Page 006 - Performance Guarantees and Adjustments",
+      "node_id": "0005",
+      "start_index": 2,
+      "end_index": 2,
+      "line_start": 89,
+      "line_end": 104,
+      "key_items": [
+        "Solar Availability",
+        "Battery Throughput",
+        "Fee Adjustment"
+      ],
+      "summary": "The document is an operations and maintenance contract excerpt for a microgrid, with sections on maintenance, incidents, guarantees, safety, reporting, spares, subcontracting, cybersecurity and insurance. Preventive maintenance requires monthly inverter inspections, quarterly infrared thermography, annual protective relay tests and six-monthly battery fire-suppression checks, all recorded against asset IDs. Critical incidents need remote acknowledgement within 10 minutes and on-site attendance within two hours. High incidents affecting over 20% of generation need acknowledgement within 30 minutes. Deferral is allowed only for weather, permit or safety reasons, with Owner approval. The operator guarantees 98.5% annual PV availability, with a fee reduction of 1% per 0.5-point shortfall, capped at 6%. Battery throughput is not guaranteed because Owner controls dispatch. Safety requires permits, lockout-tagout, two drills yearly, and electrolyte releases reported within one hour. Monthly reports are due by the fifth business day, and telemetry is kept 24 months. Spares, subcontracting with prior approval, MFA-secured remote access, and a two-hour breach notice apply. Insurance covers employer liability, USD 3M general liability and USD 2M professional liability. The termination section is named but has no content."
+    },
+    {
+      "title": "Page 007 - Safety, Environmental Controls and Reporting",
+      "node_id": "0006",
+      "start_index": 2,
+      "end_index": 2,
+      "line_start": 105,
+      "line_end": 120,
+      "key_items": [
+        "Safety Protocol",
+        "Environmental Requirements",
+        "Reporting"
+      ],
+      "summary": "The document is a service-contract excerpt (sections 5 to 9) for a solar and battery microgrid operated by Operator for Owner. Preventive plan: monthly inverter inspections, quarterly infrared thermography, annual protective-relay tests, and six-monthly battery fire-suppression checks, all logged against asset IDs. Incident response: Critical Incidents (active fire, imminent electrical hazard, or full shutdown) need remote acknowledgement within 10 minutes and on-site attendance within two hours; High Incidents affecting over 20% of generation need acknowledgement within 30 minutes. Maintenance may be deferred only for weather, permit, or safety reasons, with Owner approval. Performance: 98.5% annual PV availability is guaranteed, with a fee reduction of 1% per 0.5-point shortfall, capped at 6%. No fixed battery throughput is guaranteed. Safety and environment: permit-to-work, lockout-tagout, two emergency drills yearly, regulated battery waste handling, and electrolyte releases reported within one hour. Reporting: monthly reports by the fifth Business Day, with telemetry kept for 24 months. Spares, subcontracting, and cybersecurity: minimum spare parts stock, owner approval for subcontracting, MFA, and credential compromise reported within two hours. Insurance: employer liability, USD 3M general liability, and USD 2M professional liability."
+    },
+    {
+      "title": "Page 008 - Spare Parts, Subcontractors and Cybersecurity",
+      "node_id": "0007",
+      "start_index": 2,
+      "end_index": 2,
+      "line_start": 121,
+      "line_end": 136,
+      "key_items": [
+        "Critical Spares",
+        "Subcontracting",
+        "Cybersecurity"
+      ],
+      "summary": "Operator's contract requires monthly inverter inspections, quarterly infrared thermography, annual protective relay tests and six-monthly battery fire-suppression checks, all logged by asset ID. Critical incidents (fire, electrical hazard, full shutdown) need remote acknowledgement within 10 minutes and on-site attendance within two hours; High incidents (over 20% of capacity affected) need acknowledgement within 30 minutes. Deferral is allowed only for weather, permit or safety reasons, with Owner-approved records. PV availability is guaranteed at 98.5% annually, and shortfalls reduce the fee by 1% per 0.5 points, capped at 6%, as the sole remedy. Battery throughput is not guaranteed because Owner controls dispatch. Safety rules cover permits, lockout-tagout, arc-flash controls, an emergency plan and two drills yearly. Damaged battery waste is regulated, and electrolyte releases must be reported within one hour. Monthly reports are due by the fifth Business Day, and telemetry is kept 24 months. Critical spares must be maintained and replenished, subcontracting needs Owner approval, and cybersecurity requires named accounts, MFA, encrypted access and two-hour breach notice. Insurance includes employer liability, USD 3M general liability and USD 2M professional liability."
+    },
+    {
+      "title": "Page 009 - Insurance, Liability and Termination",
+      "node_id": "0008",
+      "start_index": 2,
+      "end_index": 3,
+      "line_start": 137,
+      "line_end": 152,
+      "key_items": [
+        "Coverage",
+        "Cap",
+        "Default"
+      ],
+      "summary": "This operation and maintenance agreement for a solar-plus-battery microgrid sets service, safety, reporting and legal terms. Operator must inspect inverter stations monthly, run thermography quarterly, test protective relays annually and check battery fire-suppression controls every six months, logging all work against asset IDs. Critical incidents require remote acknowledgement within 10 minutes and on-site attendance within two hours; High incidents affecting over 20% of capacity need acknowledgement within 30 minutes. Deferrals are allowed only for weather, permit or safety reasons, with Owner approval. Operator guarantees 98.5% annual PV availability, with a fee reduction of 1% per 0.5-point shortfall, capped at 6% and serving as the sole remedy. The battery throughput is not guaranteed. Safety duties include permits, lockout-tagout, arc-flash controls, two drills a year and damaged-battery handling, with electrolyte releases reported within one hour. Monthly reports are due by the fifth Business Day, and telemetry is kept for 24 months. Spares, approved subcontracting, cybersecurity (MFA, breach notice within two hours) and insurance limits are specified. Liability is capped at 12 months of fees, and termination is permitted after three critical response failures in a rolling year. Exit support runs for 45 days, billed at USD 95 per hour above 40 hours. Formal notices must go by courier or registered mail. Nevada law governs, and mediation in Reno for 20 Business Days precedes litigation."
+    },
+    {
+      "title": "Page 010 - Exit Assistance, Notices and Disputes",
+      "node_id": "0009",
+      "start_index": 3,
+      "end_index": 3,
+      "line_start": 153,
+      "line_end": 168,
+      "key_items": [
+        "Exit Support",
+        "Notice",
+        "Law and Mediation"
+      ],
+      "summary": "The text covers liability, default, exit, notices and disputes. Operator's aggregate contractual liability is capped at 100 percent of the fixed service fees paid or payable in the preceding twelve months, except for fraud, intentional wrongdoing and bodily injury caused by negligence. A material nonmonetary breach may be cured within 30 calendar days after written notice. Termination is permitted after an opportunity to respond in writing if Critical Incident response fails on three separate occasions within any rolling twelve months. In the final 45 days of the term, Operator must provide a live defect register, updated asset inventory, inspection history and operating credentials to Owner's replacement operator. Exit support beyond 40 labor-hours is billed at USD 95 per hour with prior written approval. Formal notices must go by courier or registered mail to the signature-page addresses, with an optional email copy; a message sent only to the operations helpdesk is not formal notice. Nevada law governs. Before an ordinary contractual lawsuit, senior representatives must attempt good-faith mediation in Reno, Nevada, for at least 20 Business Days after a written mediation request."
+    }
+  ]
+}
