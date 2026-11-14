@@ -17,3 +17,8 @@ if_add_node_text: "no"
 # whether to give the Markdown headings to the indexer as its table of contents.
 md_page_tokens: 800
 md_heading_hint: "no"
+
+# Standard-mode prompt layout (no effect on Flash): "standard" sends today's
+# prompts; "cache" is the opt-in cache-aware layout (shared cached instruction
+# block, cached document block, short question). Default keeps upstream prompts.
+prompt_layout: "standard"

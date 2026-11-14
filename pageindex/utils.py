@@ -47,6 +47,25 @@ _llm_effort: contextvars.ContextVar = contextvars.ContextVar(
 _llm_usage: contextvars.ContextVar = contextvars.ContextVar(
     "pageindex_llm_usage", default=None)
 
+# Set by llm_template: the prompt template the current model call belongs to,
+# so _add_usage can also tally calls and tokens per template into the dict in
+# _llm_usage_by_template (kept apart from the usage dict, whose shape callers
+# rely on). It never changes what is sent.
+_llm_template: contextvars.ContextVar = contextvars.ContextVar(
+    "pageindex_llm_template", default=None)
+_llm_usage_by_template: contextvars.ContextVar = contextvars.ContextVar(
+    "pageindex_llm_usage_by_template", default=None)
+
+
+@contextmanager
+def llm_template(name):
+    token = _llm_template.set(name)
+    try:
+        yield
+    finally:
+        _llm_template.reset(token)
+
+
 # Set by llm_priority: where a gate narrower than the indexing lanes queues
 # their model calls (the claude-code/ route's cap), the highest goes first.
 _llm_priority: contextvars.ContextVar = contextvars.ContextVar(
@@ -64,7 +83,8 @@ def llm_priority(prio):
 
 def _add_usage(response) -> None:
     usage, counted = _llm_usage.get(), getattr(response, "usage", None)
-    if usage is None or counted is None:
+    by_template = _llm_usage_by_template.get()
+    if counted is None or (usage is None and by_template is None):
         return
     prompt = getattr(counted, "prompt_tokens", 0) or 0
     completion = getattr(counted, "completion_tokens", 0) or 0
@@ -73,12 +93,23 @@ def _add_usage(response) -> None:
     cache_write = getattr(details, "cache_write_tokens", 0)
     reasoning = getattr(getattr(counted, "completion_tokens_details", None),
                         "reasoning_tokens", 0)
-    usage["prompt_tokens"] += prompt
-    usage["completion_tokens"] += completion
-    usage["total_tokens"] += prompt + completion
-    usage["prompt_tokens_details"]["cached_tokens"] += cached or 0
-    usage["prompt_tokens_details"]["cache_write_tokens"] += cache_write or 0
-    usage["completion_tokens_details"]["reasoning_tokens"] += reasoning or 0
+    if usage is not None:
+        usage["prompt_tokens"] += prompt
+        usage["completion_tokens"] += completion
+        usage["total_tokens"] += prompt + completion
+        usage["prompt_tokens_details"]["cached_tokens"] += cached or 0
+        usage["prompt_tokens_details"]["cache_write_tokens"] += cache_write or 0
+        usage["completion_tokens_details"]["reasoning_tokens"] += reasoning or 0
+    if by_template is not None:
+        bucket = by_template.setdefault(
+            _llm_template.get() or "other",
+            {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0,
+             "cached_tokens": 0, "cache_write_tokens": 0})
+        bucket["calls"] += 1
+        bucket["prompt_tokens"] += prompt
+        bucket["completion_tokens"] += completion
+        bucket["cached_tokens"] += cached or 0
+        bucket["cache_write_tokens"] += cache_write or 0
 
 
 def _add_usage_counts(counts, usage=None) -> None:
@@ -557,17 +588,46 @@ def _call_kwargs(model, params):
     return _joined(_llm_backend.get() or {}, carry, params)
 
 
-def llm_completion(model, prompt, chat_history=None, return_finish_reason=False):
+def _layout_messages(blocks, chat_history=None, prompt=None):
+    """The cache layout's request (contracts/prompt-layout.md): a cached system
+    block, then one user message holding the cached document block (when there
+    is one) and the question. A continuation's chat_history and follow-up
+    prompt come after them, so the cached prefix stays the same."""
+    cached = {"type": "ephemeral"}
+    user = []
+    if blocks.document:
+        part = {"type": "text", "text": blocks.document}
+        if blocks.cache_document:
+            part["cache_control"] = cached
+        user.append(part)
+    user.append({"type": "text", "text": blocks.question})
+    messages = [{"role": "system", "content": [{"type": "text", "text": blocks.system,
+                                                 "cache_control": cached}]},
+                {"role": "user", "content": user}]
+    if chat_history:
+        messages += list(chat_history) + [{"role": "user", "content": prompt}]
+    return messages
+
+
+def llm_completion(model, prompt, chat_history=None, return_finish_reason=False,
+                   layout_blocks=None):
+    """layout_blocks (cache layout only): send a LayoutBlocks request instead of
+    `prompt`; `prompt` is then used only as the follow-up of a chat_history."""
     from .integrations.claude_agent_sdk import claude_code_complete, is_claude_code
     if is_claude_code(model):
         if chat_history or return_finish_reason:
             raise ValueError("claude-code/ models index in flash mode only; "
                              "standard mode needs an API model.")
-        return run_off_loop(asyncio.run, claude_code_complete(model, prompt))
-    messages = list(chat_history) + [{"role": "user", "content": prompt}] if chat_history else [{"role": "user", "content": prompt}]
+        return run_off_loop(asyncio.run, claude_code_complete(
+            model, layout_blocks.flatten() if layout_blocks is not None else prompt))
+    if layout_blocks is not None:
+        messages = _layout_messages(layout_blocks, chat_history, prompt)
+    else:
+        messages = list(chat_history) + [{"role": "user", "content": prompt}] if chat_history else [{"role": "user", "content": prompt}]
     backend = _call_kwargs(model, {})
     model = _litellm_model(model)
-    off = _cache_off(model, backend)
+    # a cache-layout call makes its own cache choice: its breakpoints
+    off = {} if layout_blocks is not None else _cache_off(model, backend)
     try:
         return _completion(model, messages, {**off, **backend}, return_finish_reason)
     except Exception as e:
@@ -615,14 +675,16 @@ def _completion(model, messages, sent, return_finish_reason):
                 ) from e
 
 
-async def llm_acompletion(model, prompt, **params):
+async def llm_acompletion(model, prompt, layout_blocks=None, **params):
     from .integrations.claude_agent_sdk import claude_code_complete, is_claude_code
     if is_claude_code(model):
-        return await claude_code_complete(model, prompt, **params)
-    messages = [{"role": "user", "content": prompt}]
+        return await claude_code_complete(
+            model, layout_blocks.flatten() if layout_blocks is not None else prompt, **params)
+    messages = (_layout_messages(layout_blocks) if layout_blocks is not None
+                else [{"role": "user", "content": prompt}])
     sent = _call_kwargs(model, params)
     model = _litellm_model(model)
-    off = _cache_off(model, sent)
+    off = {} if layout_blocks is not None else _cache_off(model, sent)
     try:
         return await _acompletion(model, messages, {**off, **sent})
     except Exception as e:
@@ -1224,7 +1286,8 @@ async def generate_node_summary(node, model=None):
     
     Directly return the description, do not include any other text.
     """
-    response = await llm_acompletion(model, prompt)
+    with llm_template("node_summary"):
+        response = await llm_acompletion(model, prompt)
     return response
 
 
@@ -1805,7 +1868,8 @@ class SummaryScheduler:
 
     Follow strictly the above JSON return format. Do not include any other text!
     """
-        reply = await self._ask(prompt, prio)
+        with llm_template("leaf_summary"):
+            reply = await self._ask(prompt, prio)
         if retitle:
             written = parse_title(reply)
             if written:
@@ -1835,7 +1899,8 @@ class SummaryScheduler:
 
     Follow strictly the above JSON return format. Do not include any other text!
     """
-        return parse_summary(await self._ask(prompt, prio))
+        with llm_template("parent_summary"):
+            return parse_summary(await self._ask(prompt, prio))
 
     async def _visit(self, node, depth):
         await self._mark(node)
@@ -1962,7 +2027,8 @@ def generate_doc_description(structure, model=None):
     Directly return the description, do not include any other text.
     """
     try:
-        return llm_completion(model, prompt)
+        with llm_template("doc_description"):
+            return llm_completion(model, prompt)
     except Exception as e:
         # Per-prompt 400: the unbounded whole-tree prompt overran the
         # context; the indexed document survives with no description.

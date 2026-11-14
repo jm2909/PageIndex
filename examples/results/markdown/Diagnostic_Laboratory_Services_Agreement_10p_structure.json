@@ -1,0 +1,147 @@
+{
+  "doc_name": "Diagnostic_Laboratory_Services_Agreement_10p.md",
+  "source_type": "markdown",
+  "doc_description": "A synthetic Massachusetts laboratory services agreement between Elmbridge Community Health Network and Northpoint Reference Laboratories LLC, effective 1 June 2027, covering six collection centers (EC-01 to EC-06), a Springfield processing facility, USD 12.50 Routine and USD 38.00 STAT pricing, a three-year initial term, and termination, transition and Suffolk County governing-law provisions.",
+  "structure": [
+    {
+      "title": "Page 001 - Contracting Parties and Definitions",
+      "node_id": "0000",
+      "start_index": 1,
+      "end_index": 1,
+      "line_start": 9,
+      "line_end": 24,
+      "key_items": [
+        "Parties",
+        "Scope of Relationship",
+        "Defined Terms"
+      ],
+      "summary": "A synthetic Laboratory Services and Specimen Logistics Agreement between Elmbridge Community Health Network (Client) and Northpoint Reference Laboratories LLC (Laboratory), effective 1 June 2027, covering Massachusetts communities. It defines the Laboratory as an independent contractor for diagnostic testing and specimen transport, with Client retaining clinical decisions, consent and result communication. Key terms include Routine Test, STAT Test, Critical Result and Business Day definitions. Scope covers six collection centers (EC-01 to EC-06) with transport to a Springfield, Massachusetts processing facility. The catalog holds 85 routine and 12 STAT assays, with changes requiring 15 Business Days' notice except emergency safety changes. Specimens may be rejected if unlabeled, mismatched or outside temperature limits, with rejections logged. The initial term runs 1 July 2027 to 30 June 2030, auto-renewing annually absent 90 days' nonrenewal notice. Implementation includes a 30-day validation period and approval of labeling templates. Planned volume is 18,000 specimens monthly, non-binding, with capacity discussions if volume changes exceed 25 percent for two months. Pricing is USD 12.50 per Routine Test and USD 38.00 per STAT Test, with courier included. Invoices are itemized and due net 35 days, and billing disputes must be raised within 60 days, without delaying payment of undisputed items."
+    },
+    {
+      "title": "Page 002 - Locations, Testing Catalog and Specimen Limits",
+      "node_id": "0001",
+      "start_index": 1,
+      "end_index": 1,
+      "line_start": 25,
+      "line_end": 40,
+      "key_items": [
+        "Collection Sites",
+        "Catalog",
+        "Specimen Acceptance"
+      ],
+      "summary": "A synthetic Laboratory Services and Specimen Logistics Agreement between Elmbridge Community Health Network (Client) and Northpoint Reference Laboratories LLC (Laboratory), effective 1 June 2027, covering Massachusetts communities. It defines the Laboratory as an independent contractor for diagnostic testing and transport, with Client retaining clinical decisions, consent and result communication. Key terms include Routine, STAT and Critical Result definitions and Business Day. Scope covers six Client collection centers (EC-01 to EC-06) with specimens sent to a Springfield facility; the catalog holds 85 routine and 12 STAT assays, with changes requiring 15 Business Days' notice except emergencies. Specimens may be rejected if unlabeled, mismatched or outside temperature limits, with rejections logged. The initial term runs 1 July 2027 to 30 June 2030, auto-renewing annually absent 90 days' nonrenewal notice. Implementation includes a 30-day validation period and approval of labeling templates. Planned volume is 18,000 specimens monthly, non-binding. Pricing is USD 12.50 per Routine Test and USD 38.00 per STAT Test, with courier included. Invoices are due by the seventh Business Day monthly, payable net 35 days; billing disputes must be raised within 60 days and do not delay undisputed payments."
+    },
+    {
+      "title": "Page 003 - Service Period and Implementation",
+      "node_id": "0002",
+      "start_index": 1,
+      "end_index": 1,
+      "line_start": 41,
+      "line_end": 56,
+      "key_items": [
+        "Term",
+        "Implementation",
+        "Volume Planning"
+      ],
+      "summary": "A synthetic Laboratory Services and Specimen Logistics Agreement between Elmbridge Community Health Network (Client) and Northpoint Reference Laboratories LLC (Laboratory), effective 1 June 2027, covering Massachusetts communities. It defines the laboratory as an independent contractor for diagnostic testing and transport, with the Client retaining clinical decisions, consent and result communication. Key definitions include Routine Test, STAT Test, Critical Result and Business Day. Scope covers six Client collection centers (EC-01 to EC-06) with specimens sent to a Springfield, Massachusetts facility; catalog of 85 routine and 12 STAT assays with 15-Business-Day change notice; and specimen rejection rules. The term runs 1 July 2027 to 30 June 2030, auto-renewing annually unless 90 days' nonrenewal notice is given. Implementation includes a 30-day validation period and label template approval. Planning volume is 18,000 specimens monthly, non-binding, with capacity discussions if volume shifts over 25 percent for two months. Pricing is USD 12.50 per Routine Test and USD 38.00 per STAT Test, including courier service. Invoices are due by the seventh Business Day monthly, payable net 35 days, with a 60-day window to dispute charges."
+    },
+    {
+      "title": "Page 004 - Fee Schedule, Invoice Review and Payment",
+      "node_id": "0003",
+      "start_index": 1,
+      "end_index": 1,
+      "line_start": 57,
+      "line_end": 72,
+      "key_items": [
+        "Prices",
+        "Invoicing",
+        "Audit and Disputes"
+      ],
+      "summary": "A synthetic Laboratory Services and Specimen Logistics Agreement between Elmbridge Community Health Network (Client) and Northpoint Reference Laboratories LLC (Laboratory), effective 1 June 2027, covering Massachusetts communities. It defines the independent-contractor scope (Client keeps clinical decisions, consent and result communication), key terms (Routine Test, STAT Test, Critical Result, Business Day). It covers six collection sites (EC-01 to EC-06) with transport to a Springfield facility, a catalog of 85 routine and 12 STAT assays with 15-Business-Day change notice rules, and specimen rejection criteria (unlabeled, mismatched, out-of-temperature). The term runs 1 July 2027 to 30 June 2030 with automatic one-year renewals absent 90-day nonrenewal notice. Implementation includes 30-day validation of requisitions, courier manifests and critical-result call trees, plus Client label approval. Planned volume is 18,000 specimens monthly, non-binding, with capacity discussions if volume shifts over 25% for two months. Pricing is USD 12.50 per Routine Test and USD 38.00 per STAT Test, with courier included; invoicing is itemized by the seventh Business Day, payment net 35 days, and billing disputes allowed within 60 days."
+    },
+    {
+      "title": "Page 005 - Pickup Schedules and Chain of Custody",
+      "node_id": "0004",
+      "start_index": 2,
+      "end_index": 2,
+      "line_start": 73,
+      "line_end": 88,
+      "key_items": [
+        "Daily Collections",
+        "Chain of Custody",
+        "Transport Failure"
+      ],
+      "summary": "The text covers laboratory service terms across pages 5-9: daily courier pickup schedules from collection sites EC-01 to EC-06 with STAT on-demand dispatch; chain of custody requirements (manifest codes, timestamps, courier IDs, temperature status, two-hour reconciliation of count mismatches); transport failure handling (notification if pickup missed by over 45 minutes, temperature excursion documentation and quarantine). It sets turnaround targets (95% of Routine results within 24 hours, 90% of STAT within 90 minutes, assessed monthly) and critical result notification (phone call to clinician within 20 minutes with read-back, alternate escalation in Schedule C). It addresses quality and compliance: CLIA and Massachusetts licensing, proof of certifications requested at most quarterly, notice of testing errors within one Business Day, and a corrective action plan if Routine turnaround falls below 95% for two consecutive months. It covers privacy and security: compliance with privacy laws and business associate agreements, limited use of patient data, 24-hour breach notification, seven-year record retention, and validated specimen disposal. Finally, it describes service credits of 3% (below 95%) or 6% (below 90%) of Routine charges, non-cumulative, and liability caps at twelve months of payments, with exceptions for fraud, willful misconduct, and confidentiality or data breaches."
+    },
+    {
+      "title": "Page 006 - Turnaround Times and Critical Results",
+      "node_id": "0005",
+      "start_index": 2,
+      "end_index": 2,
+      "line_start": 89,
+      "line_end": 104,
+      "key_items": [
+        "Routine Turnaround",
+        "STAT Turnaround",
+        "Critical Notification"
+      ],
+      "summary": "The text covers laboratory service terms across pages 5-9: daily pickup schedules (EC-01 to EC-04 at 11:00 and 17:00, EC-05/EC-06 at 16:00, STAT on-demand line); chain of custody requirements (manifest code, timestamps, courier ID, temperature status, two-hour mismatch reconciliation); transport failure handling (45-minute missed pickup notice, temperature excursion quarantine); turnaround targets (95% of Routine results within 24 hours, 90% of STAT within 90 minutes, monthly assessment); critical result notification (phone call within 20 minutes with read-back, alternate escalation in Schedule C); quality and compliance (CLIA and Massachusetts licensing, quarterly certification requests, one-day error notice, corrective action plans after two consecutive months below 95%); privacy and security (privacy law and BAA compliance, permitted data use, 24-hour breach notice, seven-year record retention, biosafety disposal); and service credits (3% or 6% of monthly Routine charges, non-cumulative) and liability caps (twelve months' fees, with exceptions for fraud, willful misconduct, and confidentiality or data breaches)."
+    },
+    {
+      "title": "Page 007 - Quality, Regulatory Compliance and Corrective Action",
+      "node_id": "0006",
+      "start_index": 2,
+      "end_index": 2,
+      "line_start": 105,
+      "line_end": 120,
+      "key_items": [
+        "Standards",
+        "Quality Events",
+        "Improvement Plans"
+      ],
+      "summary": "The text covers laboratory service terms across pages 5–9: daily courier pickup schedules from collection sites EC-01 to EC-06 (with STAT on-demand dispatch); chain-of-custody requirements (manifest codes, timestamps, courier IDs, temperature status, two-hour count reconciliation); transport failure handling (45-minute missed-pickup notice, temperature excursion documentation and quarantine). It sets turnaround targets (95% of Routine results within 24 hours; 90% of STAT within 90 minutes, assessed monthly) and critical result notification (phone call within 20 minutes with read-back, escalation per Schedule C). It addresses quality and compliance (CLIA and Massachusetts licensing, quarterly certification requests, one-business-day error notice, corrective action plans after two months below 95%). Privacy and records terms cover data-law and BAA compliance, limited patient data use, 24-hour breach notice, seven-year retention, and biosafety-compliant disposal. Finally, it defines service credits (3% or 6% of monthly Routine charges for turnaround shortfalls, non-cumulative) and liability caps at twelve months' payments, with exceptions for fraud, willful misconduct, and confidentiality or data-security breaches."
+    },
+    {
+      "title": "Page 008 - Privacy, Security and Records",
+      "node_id": "0007",
+      "start_index": 2,
+      "end_index": 2,
+      "line_start": 121,
+      "line_end": 136,
+      "key_items": [
+        "Protected Data",
+        "Security Incident",
+        "Retention and Disposal"
+      ],
+      "summary": "The text covers laboratory-client service terms across pages 5-9: daily courier pickup schedules from collection sites EC-01 to EC-06 and STAT on-demand dispatch; chain of custody requirements (manifest codes, timestamps, courier IDs, temperature status, two-hour count reconciliation); transport failure handling (45-minute missed pickup notice, temperature excursion documentation and quarantine). It also specifies turnaround targets (95% of Routine results within 24 hours, 90% of STAT within 90 minutes, monthly assessment), critical result notification (phone call within 20 minutes with read-back, escalation per Schedule C). Quality and compliance terms include CLIA and Massachusetts licensing, certification requests, one-day notice of testing errors, and corrective action plans after two consecutive months below 95% Routine turnaround. Privacy and security provisions cover data law compliance, business associate agreements, limited use of patient information, 24-hour breach notification, seven-year record retention, and biosafe specimen disposal. Finally, service credits of 3% or 6% of monthly Routine charges (non-cumulative) and liability caps (excluding fraud, misconduct, and confidentiality breaches) at the prior twelve months' payments are addressed."
+    },
+    {
+      "title": "Page 009 - Service Credits, Liability and Termination",
+      "node_id": "0008",
+      "start_index": 2,
+      "end_index": 3,
+      "line_start": 137,
+      "line_end": 152,
+      "key_items": [
+        "Service Credits",
+        "Liability Allocation",
+        "Termination"
+      ],
+      "summary": "Covers pages 5-10 of a laboratory services agreement: daily courier pickup schedules from collection sites EC-01 to EC-06 with STAT on-demand dispatch; chain of custody requirements (manifest codes, timestamps, courier IDs, temperature status, two-hour count reconciliation); transport failure handling (45-minute missed-pickup notice, temperature excursion quarantine). Turnaround targets: 95% of routine results within 24 hours, 90% of STAT within 90 minutes, monthly assessment; critical results phoned to clinicians within 20 minutes with read-back and escalation. Quality and compliance: CLIA and Massachusetts licensing, quarterly certification requests, one-day notice of testing errors, corrective action plans after two months below 95% routine turnaround. Privacy and security: data law and BAA compliance, limited use of patient data, 24-hour breach notice, seven-year record retention and biosafety-compliant disposal. Financial and legal: service credits of 3% (below 95%) or 6% (below 90%) of routine charges, non-cumulative; liability cap at prior twelve months' payments with exclusions; termination for uncured material breach after 30 days or immediately upon unlawful regulatory suspension. Transition support for 60 days post-termination; formal notice by tracked courier; Massachusetts governing law, contract-manager then executive dispute escalation, and Suffolk County courts."
+    },
+    {
+      "title": "Page 010 - Transition, Notice and Governing Law",
+      "node_id": "0009",
+      "start_index": 3,
+      "end_index": 3,
+      "line_start": 153,
+      "line_end": 168,
+      "key_items": [
+        "Transition Support",
+        "Formal Notice",
+        "Governing Law and Dispute Process"
+      ],
+      "summary": "Covers termination terms: a material breach uncured 30 calendar days after written notice permits termination, and either Party may terminate immediately if a regulatory suspension makes core testing services unlawful. Transition support requires Laboratory to reasonably cooperate for 60 calendar days after termination or expiration in transferring outstanding orders, approved result history, and specimen tracking records to Client or a replacement provider, subject to patient-data safeguards. Formal notice is effective upon delivery by tracked courier to signature-block offices; email may accompany but does not replace delivery for termination notices. Massachusetts law governs; billing and service disputes go first to contract managers for ten Business Days, then to executive representatives, before litigation in Suffolk County, Massachusetts courts."
+    }
+  ]
+}

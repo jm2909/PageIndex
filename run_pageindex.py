@@ -45,6 +45,9 @@ if __name__ == "__main__":
     parser.add_argument('--max-tokens-per-node', type=int, default=None,
                       help='Maximum number of tokens per node (standard mode)')
 
+    parser.add_argument('--prompt-layout', choices=['standard', 'cache'], default=None,
+                      help='Standard-mode prompt layout: standard (default, config.yaml) or the '
+                           'opt-in cache-aware layout')
     parser.add_argument('--if-add-node-id', type=str, default=None,
                       help='Whether to add node id to the node')
     parser.add_argument('--if-add-node-summary', type=str, default=None,
@@ -88,6 +91,9 @@ if __name__ == "__main__":
                     raise ValueError(f"{flag} does not apply to --md-indexer headings")
     elif args.mode is None:
         args.mode = 'flash'
+    if args.prompt_layout is not None and (
+            args.mode == 'flash' or (args.md_path and args.md_indexer == 'headings')):
+        raise ValueError("--prompt-layout applies to standard mode only")
     if args.pdf_path:
         for flag, value in (('--md-page-tokens', args.md_page_tokens),
                             ('--md-heading-hint', args.md_heading_hint or None),
@@ -173,6 +179,7 @@ if __name__ == "__main__":
                 'if_add_node_summary': args.if_add_node_summary,
                 'if_add_doc_description': args.if_add_doc_description,
                 'if_add_node_text': args.if_add_node_text,
+                'prompt_layout': args.prompt_layout,
             }
             opt = ConfigLoader().load({k: v for k, v in user_opt.items() if v is not None})
             toc_with_page_number = page_index_main(args.pdf_path, opt)
@@ -216,6 +223,7 @@ if __name__ == "__main__":
                 'if_add_node_text': args.if_add_node_text,
                 'md_page_tokens': args.md_page_tokens,
                 'md_heading_hint': 'yes' if args.md_heading_hint else None,
+                'prompt_layout': args.prompt_layout,
             }
             opt = ConfigLoader().load({k: v for k, v in user_opt.items() if v is not None})
             toc_with_page_number = page_index_main(args.md_path, opt)

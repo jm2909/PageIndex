@@ -1,0 +1,127 @@
+{
+  "doc_name": "Solar_Microgrid_Operations_Agreement_10p.pdf",
+  "source_type": "pdf",
+  "doc_description": "A synthetic Solar Microgrid Operations and Maintenance Agreement for North Basin Industrial Park, Nevada (Westmere Industrial Park Authority and Sunhaven Energy Operations Ltd., effective 10 March 2027) covering a 7.5 MWdc solar array and 4 MW/16 MWh LFP battery, with its service term, fees, maintenance and response times, safety and cybersecurity rules, insurance and liability, and exit and dispute terms.",
+  "structure": [
+    {
+      "title": "Parties, Purpose and Contract Structure",
+      "node_id": "0000",
+      "start_index": 1,
+      "end_index": 2,
+      "key_items": [
+        "Parties",
+        "Purpose",
+        "Order of Precedence"
+      ],
+      "summary": "The text is the opening portion of a synthetic Solar Microgrid Operations and Maintenance Agreement for North Basin Industrial Park, Nevada, between Westmere Industrial Park Authority (Owner) and Sunhaven Energy Operations Ltd. (Operator), effective 10 March 2027. It covers the parties and purpose: Operator provides preventive and corrective maintenance, remote monitoring, and performance reporting for listed solar and battery assets, may not act as electricity retailer, and must follow the Owner's dispatch protocol. It sets order of precedence among the agreement, Appendices A (assets), B (safety plan), and C (reporting templates), with signed amendments controlling only where expressly stated. It defines the asset scope: a 7.5 MWdc solar array, a 4 MW/16 MWh lithium iron phosphate battery, six medium-voltage transformers, and a supervisory control system across two fenced yards. Exclusions include the utility's off-site feeder, Owner tenant circuits, and third-party telecoms, though incident coordination may still be required. Within 30 days, Operator must reconcile asset records against the Owner's register, escalating discrepancies above 2 percent of critical components with a corrective plan."
+    },
+    {
+      "title": "Asset Register and Operating Boundaries",
+      "node_id": "0001",
+      "start_index": 2,
+      "end_index": 3,
+      "key_items": [
+        "Asset Scope",
+        "Exclusions",
+        "Asset Records"
+      ],
+      "summary": "Covers the Solar Microgrid Operations and Maintenance Agreement for North Basin Industrial Park. Section 2 defines the covered assets: a 7.5 MWdc solar PV array, a 4 MW/16 MWh LFP battery system, six medium-voltage transformers, and a site supervisory control system across two fenced yards. It excludes the utility's off-site feeder, tenant circuits, and third-party telecoms beyond the demarcation, though incident coordination may still be required. Operator must reconcile asset records within 30 days, escalating discrepancies over 2% of critical components. Section 3 sets a five-year term from 1 May 2027 to 30 April 2032, with an optional two-year extension agreed in writing 90 days before expiry. Mobilization requires safety induction, spare-parts inspection, and remote monitoring handover within 20 Business Days, with Owner providing access credentials and manuals. A joint handover report at transition lists warranty claims, alerts, and work orders, and does not waive pre-existing EPC or Owner-caused defects."
+    },
+    {
+      "title": "Service Term and Mobilization",
+      "node_id": "0002",
+      "start_index": 3,
+      "end_index": 4,
+      "key_items": [
+        "Term",
+        "Mobilization",
+        "Transition"
+      ],
+      "summary": "The text covers sections 3 and 4 of a Solar Microgrid Operations and Maintenance Agreement for North Basin Industrial Park. Section 3 (Service Term and Mobilization) sets a five-year term from 1 May 2027 to 30 April 2032, with an optional two-year extension agreed in writing at least 90 days before expiry; it requires the Operator to complete safety induction, spare-parts inspection and remote monitoring handover within 20 Business Days, and the Owner to provide access credentials and manuals before the first maintenance event; a joint handover report lists warranty claims, open alerts and deferred work orders, and signing it does not waive pre-existing EPC or Owner-caused defects. Section 4 (Service Fee, Variable Costs and Invoicing) sets a fixed monthly fee of USD 42,000 covering inspections, monitoring and ordinary preventive labor; parts costing over USD 2,500 need written approval unless urgent for safety; approved after-hours emergency labor is USD 145 per technician-hour; invoices are monthly in arrears, payable within 25 days, with undisputed late amounts accruing 0.75% monthly interest up to legal limits."
+    },
+    {
+      "title": "Service Fee, Variable Costs and Invoicing",
+      "node_id": "0003",
+      "start_index": 4,
+      "end_index": 5,
+      "key_items": [
+        "Fixed Fee",
+        "Parts and Emergencies",
+        "Invoicing"
+      ],
+      "summary": "Excerpt from a Solar Microgrid Operations and Maintenance Agreement for the North Basin Industrial Park energy assets. Section 4 covers fees and invoicing: a fixed monthly service fee of USD 42,000 including routine inspections, remote monitoring and ordinary preventive labor; replacement parts over USD 2,500 need Owner's written approval unless urgent safety replacement is needed; approved after-hours emergency labor is billed at USD 145 per technician-hour; monthly invoicing in arrears with 25-day payment terms and 0.75% monthly interest on undisputed late balances, capped by law. Section 5 covers preventive maintenance and response times: monthly inverter inspections, quarterly infrared thermography, annual protective relay testing, six-monthly battery fire-suppression checks, and asset-linked records; Critical Incidents require remote acknowledgement within 10 minutes and on-site attendance within two hours, while High Incidents (over 20% capacity loss) need acknowledgement within 30 minutes; deferral is allowed only for weather, permit or safety reasons with documented justification, controls and Owner-approved revised dates."
+    },
+    {
+      "title": "Preventive Maintenance and Response Times",
+      "node_id": "0004",
+      "start_index": 5,
+      "end_index": 6,
+      "key_items": [
+        "Preventive Plan",
+        "Incident Response",
+        "Deferral"
+      ],
+      "summary": "Pages 5-6 of a Solar Microgrid Operations and Maintenance Agreement for the North Basin Industrial Park cover preventive maintenance and response times, performance guarantees, and fee adjustments. Preventive plan: monthly inverter inspections, quarterly infrared thermography, annual protective relay testing, and six-monthly battery fire-suppression control inspections, all recorded against asset identifiers. Incident response: Critical Incidents (active fire, imminent electrical hazard, or full shutdown) require remote acknowledgement within 10 minutes and on-site attendance within two hours; High Incidents affecting over 20% of generation capacity require acknowledgement within 30 minutes. Deferral of maintenance is allowed only for weather, permit conditions, or safety, with records stating justification, protective controls, and an Owner-approved revised date. Performance: a 98.5% annual PV availability guarantee excluding grid outages, approved maintenance, and force majeure; no fixed battery throughput guarantee since Owner controls dispatch. Fee adjustment: a 1% fee reduction per 0.5-point availability shortfall from controllable causes, capped at 6% of the annual fixed fee, as the sole price remedy."
+    },
+    {
+      "title": "Performance Guarantees and Adjustments",
+      "node_id": "0005",
+      "start_index": 6,
+      "end_index": 7,
+      "key_items": [
+        "Solar Availability",
+        "Battery Throughput",
+        "Fee Adjustment"
+      ],
+      "summary": "This excerpt from a Solar Microgrid Operations and Maintenance Agreement (North Basin Industrial Park) covers performance guarantees, safety, environmental controls, and reporting. Section 6 sets a 98.5% annual PV availability guarantee excluding grid outages, approved maintenance, and force majeure; no fixed battery throughput is guaranteed since Owner controls dispatch; and availability shortfalls within Operator control reduce the annual fee by 1% per 0.5-point shortfall, capped at 6%, as the sole price remedy. Section 7 requires permit-to-work, lockout-tagout, and arc-flash controls, an emergency response plan with two drills yearly, regulated handling of damaged batteries, reporting of electrolyte releases to soil within one hour, and monthly performance reports by the fifth Business Day with telemetry retained for 24 months."
+    },
+    {
+      "title": "Safety, Environmental Controls and Reporting",
+      "node_id": "0006",
+      "start_index": 7,
+      "end_index": 8,
+      "key_items": [
+        "Safety Protocol",
+        "Environmental Requirements",
+        "Reporting"
+      ],
+      "summary": "Pages 7-8 of a Solar Microgrid Operations and Maintenance Agreement for the North Basin Industrial Park energy assets portfolio. Section 7 covers safety: energized electrical work needs permit-to-work, lockout-tagout and arc-flash controls; operator maintains an emergency response plan and holds two drills yearly. Environmental rules: damaged batteries are handled as regulated waste with licensed transporters, and confirmed electrolyte soil releases must be reported to Owner within one hour. Reporting: a monthly performance report is due by the fifth Business Day, covering uptime, maintenance, incidents, energy production and open defects; raw telemetry is kept 24 months. Section 8 covers spare parts: minimum stock of four inverter cooling fan kits, eight DC string fuses and two fire-panel sensors, replenished within 15 Business Days if available. Subcontracting of high-voltage services requires prior written approval, with operator remaining responsible. Cybersecurity: named accounts, multifactor authentication, encrypted remote access, and compromise of control credentials reported within two hours."
+    },
+    {
+      "title": "Spare Parts, Subcontractors and Cybersecurity",
+      "node_id": "0007",
+      "start_index": 8,
+      "end_index": 9,
+      "key_items": [
+        "Critical Spares",
+        "Subcontracting",
+        "Cybersecurity"
+      ],
+      "summary": "Solar microgrid O&M agreement (North Basin Industrial Park) covering: critical spares (four inverter cooling fan kits, eight DC string fuses, two fire-panel sensors kept on site, replenished within 15 Business Days if available); subcontracting of specialist high-voltage work with Owner's prior written approval, with Operator remaining fully responsible for subcontractor safety, supervision and performance; cybersecurity requirements (named accounts, multifactor authentication, encrypted remote access, and notice of confirmed credential compromise within two hours); insurance (employer liability as required by law, USD 3 million commercial general liability per occurrence, USD 2 million professional liability per claim); liability cap at 100% of fees paid or payable in the prior twelve months, excluding fraud, intentional wrongdoing and negligent bodily injury; and default terms (30-day cure period for material nonmonetary breaches, termination right after three Critical Incident response failures within twelve months following opportunity to respond). Document is marked as a synthetic retrieval benchmark, not for execution."
+    },
+    {
+      "title": "Insurance, Liability and Termination",
+      "node_id": "0008",
+      "start_index": 9,
+      "end_index": 10,
+      "key_items": [
+        "Coverage",
+        "Cap",
+        "Default"
+      ],
+      "summary": "This page of the Solar Microgrid Operations and Maintenance Agreement for North Basin Industrial Park covers insurance, liability, termination, exit assistance, notices, and disputes. Operator must carry statutory employer liability insurance, USD 3 million commercial general liability per occurrence, and USD 2 million professional liability per claim. Aggregate contractual liability is capped at 100 percent of fixed service fees paid or payable in the prior twelve months, excluding fraud, intentional wrongdoing, and negligent bodily injury. A material nonmonetary breach may be cured within 30 days of notice; three repeated Critical Incident response failures within a rolling twelve months permit termination after a written response opportunity. Exit support in the final 45 days includes handover of defect register, asset inventory, inspection history, and credentials, with work beyond 40 labor-hours billed at USD 95/hour with prior approval. Formal notices require courier or registered mail, with optional email, and helpdesk messages do not count. Nevada law governs, and at least 20 Business Days of good-faith mediation in Reno is required before ordinary contractual lawsuits."
+    },
+    {
+      "title": "Exit Assistance, Notices and Disputes",
+      "node_id": "0009",
+      "start_index": 10,
+      "end_index": 10,
+      "key_items": [
+        "Exit Support",
+        "Notice",
+        "Law and Mediation"
+      ],
+      "summary": "This page of a Solar Microgrid Operations and Maintenance Agreement for North Basin Industrial Park covers exit assistance, notices, and disputes. Exit Support: during the final 45 days of the term, the Operator provides a live defect register, updated asset inventory, inspection history, and operating credentials to the Owner's replacement operator; exit support beyond 40 labor-hours is billed at USD 95 per hour with prior written approval. Notice: formal notices must be sent by courier or registered mail to addresses in the signature pages, with optional email copies; messages sent only to the operations helpdesk do not count. Law and Mediation: Nevada law governs, and before an ordinary contractual lawsuit, senior representatives must attempt good-faith mediation in Reno, Nevada, for at least 20 Business Days after a written mediation request. The page is marked as a synthetic contract for retrieval benchmarking, not for execution, and is page 10 of 10."
+    }
+  ]
+}

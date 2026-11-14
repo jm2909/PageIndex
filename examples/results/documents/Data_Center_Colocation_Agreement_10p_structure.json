@@ -1,0 +1,127 @@
+{
+  "doc_name": "Data_Center_Colocation_Agreement_10p.pdf",
+  "source_type": "pdf",
+  "doc_description": "A colocation and managed facilities agreement between Cedar Peak Infrastructure LLC and Glasshaven Analytics Inc. for Suite D-14 (twelve 42U racks, 96 kW dual-feed power) in Building DC-2 of the Cedar Peak Data Campus in Briarfield, Colorado, effective 15 February 2027, covering term, fees, service levels, security, maintenance, liability, exit, and Colorado governing law.",
+  "structure": [
+    {
+      "title": "Agreement, Parties and Effective Date",
+      "node_id": "0000",
+      "start_index": 1,
+      "end_index": 2,
+      "key_items": [
+        "1.1 Parties",
+        "1.2 Contract Documents",
+        "1.3 Designated Contacts"
+      ],
+      "summary": "A colocation and managed facilities agreement between Cedar Peak Infrastructure LLC (Provider) and Glasshaven Analytics Inc. (Customer), effective 15 February 2027, for the Cedar Peak Data Campus in Briarfield, Colorado (Building DC-2). It defines contract documents (order form, agreement, Service Schedules A and B, signed change orders) and their conflict precedence, noting marketing descriptions do not vary express commitments. It designates operational, contractual, and technical contacts for each party, stating contact changes do not amend obligations. It grants a contractual license (not a lease) to Suite D-14 with twelve 42U racks, sets a 96 kW committed power allocation with dual A/B feeds, allows up to four diverse carrier cross-connects by signed order, and limits Customer's access to its allocated racks, with Provider retaining control of common areas."
+    },
+    {
+      "title": "Licensed Space and Authorized Equipment",
+      "node_id": "0001",
+      "start_index": 2,
+      "end_index": 3,
+      "key_items": [
+        "2.1 Space Allocation",
+        "2.2 Power and Connectivity",
+        "2.3 Access Boundaries"
+      ],
+      "summary": "The text covers excerpts from a data center colocation and managed facilities agreement for Cedar Peak Data Campus, Building DC-2. Section 2 (Licensed Space and Authorized Equipment) grants a contractual license (not a lease) for Suite D-14 with twelve racks of 42 rack units each; sets a 96 kW aggregate initial power allocation with dual A/B feeds; allows up to four diverse carrier cross-connects ordered by signed order, with no activation by port reservation; and restricts customer equipment to allocated racks, with provider retaining control of corridors, mechanical rooms, meet-me rooms and emergency exits. Section 3 (Term, Acceptance and Renewal) sets a 36-month initial term from 1 April 2027 to 31 March 2030, an acceptance checklist, a five-Business-Day testing window after the Ready for Service notice with deemed acceptance absent written material deficiencies, and a single 24-month renewal requiring 120 days' notice at list price less an 8 percent discount unless otherwise specified."
+    },
+    {
+      "title": "Term, Acceptance and Renewal",
+      "node_id": "0002",
+      "start_index": 3,
+      "end_index": 4,
+      "key_items": [
+        "3.1 Initial Term",
+        "3.2 Acceptance Process",
+        "3.3 Renewal"
+      ],
+      "summary": "Data center colocation agreement for Cedar Peak Data Campus, Building DC-2. Section 3 covers term and acceptance: a 36-month initial term from 1 April 2027 to 31 March 2030, an acceptance checklist for power-feed, rack-lock and network-handoff readiness, a five-Business-Day customer testing window after the Ready for Service notice deemed acceptance absent written material deficiencies, and a single 24-month renewal requiring 120 days' notice at list price less an 8 percent discount. Section 4 covers fees and billing: USD 18,600 monthly license including twelve racks and 96 kW reserved power, metered electricity at USD 0.14/kWh, USD 175 monthly cross-connects, monthly invoicing net 30, a USD 37,200 refundable security deposit applicable to overdue charges after notice and a ten-day cure, and a 3 percent annual license increase from 1 April 2028 plus power rate changes requiring 60 days' notice and documented energy cost changes."
+    },
+    {
+      "title": "Fees, Billing and Security",
+      "node_id": "0003",
+      "start_index": 4,
+      "end_index": 5,
+      "key_items": [
+        "4.1 Recurring Charges",
+        "4.2 Payment and Deposit",
+        "4.3 Annual Adjustment"
+      ],
+      "summary": "Excerpt from a Data Center Colocation and Managed Facilities Agreement (Cedar Peak Data Campus, Building DC-2). Section 4 covers fees and billing: a monthly license of USD 18,600 includes twelve racks and 96 kW reserved power, metered electricity is billed at USD 0.14/kWh, cross-connects cost USD 175 each monthly, invoices issue on the first business day with net-30 payment, a refundable USD 37,200 security deposit may be applied to undisputed overdue charges after notice and a ten-day cure, and the license charge rises 3% annually from 1 April 2028 while power rates change only with 60 days' notice and documented energy cost changes. Section 5 covers service levels: 99.95% monthly availability of contracted power at the rack PDU demarcation point, Severity 1 (loss of both feeds) requiring acknowledgement within 15 minutes and Severity 2 (single-feed degradation) within 60 minutes, and credits of 2% of the monthly license charge per full 30 minutes of excess downtime, capped at 20% monthly, with claims due within 20 calendar days."
+    },
+    {
+      "title": "Service Levels and Outage Credits",
+      "node_id": "0004",
+      "start_index": 5,
+      "end_index": 6,
+      "key_items": [
+        "5.1 Availability Target",
+        "5.2 Incident Severity",
+        "5.3 Credit Mechanism"
+      ],
+      "summary": "This excerpt from a Data Center Colocation and Managed Facilities Agreement (Cedar Peak Data Campus, Building DC-2, pages 5-6) covers service levels and physical security. Service levels include a 99.95% monthly availability target for contracted power at the rack PDU demarcation point, excluding approved maintenance and listed exclusions; Severity 1 incidents (total loss of A and B feeds) require engineer acknowledgement within 15 minutes, and Severity 2 (single-feed degradation) within 60 minutes; outage credits equal 2% of the monthly license charge per full 30 minutes of unavailability beyond allowed downtime, capped at 20% monthly, with claims due within 20 calendar days. Physical security covers continuous CCTV and badge logs with 90-day minimum retention (longer for holds), a staffed security desk, up to eight named technicians with unescorted access to Suite D-14, 24-hour advance registration and escorts for other visitors, and notification to Customer within four hours of confirmed unauthorized physical access."
+    },
+    {
+      "title": "Physical Security and Visitor Controls",
+      "node_id": "0005",
+      "start_index": 6,
+      "end_index": 7,
+      "key_items": [
+        "6.1 Facility Controls",
+        "6.2 Authorized Personnel",
+        "6.3 Security Events"
+      ],
+      "summary": "This excerpt from a Data Center Colocation and Managed Facilities Agreement (Cedar Peak Data Campus, Building DC-2) covers physical security, maintenance, and change control. Section 6 requires continuous CCTV of security corridors, badge access logs, and a staffed security desk, with recordings kept at least 90 days unless preserved for an incident or legal hold. Customer may nominate up to eight authorized technicians for unescorted access to Suite D-14; other visitors need 24-hour advance registration and escorts. Provider must notify Customer within four hours of confirming unauthorized physical access to Customer cabinets, identifying scope, containment actions, and an incident coordinator. Section 7 sets a Sunday 02:00-06:00 Mountain Time maintenance window with seven days' notice, with emergency exceptions. Remote hands include eight hours monthly, with additional help billed at USD 110/hour in 15-minute increments and a one-hour minimum. Customer must submit a method statement 48 hours before material changes to cabling, power, or rack footprint, and Provider may reject changes threatening cooling, fire protection, or neighbors."
+    },
+    {
+      "title": "Maintenance, Change Windows and Remote Hands",
+      "node_id": "0006",
+      "start_index": 7,
+      "end_index": 8,
+      "key_items": [
+        "7.1 Maintenance Window",
+        "7.2 Remote Hands",
+        "7.3 Customer Change Control"
+      ],
+      "summary": "Covers maintenance, change control, remote hands, and data responsibility terms for the Cedar Peak Data Campus (Building DC-2) colocation agreement. Routine maintenance occurs Sundays 02:00-06:00 Mountain Time with at least seven days' notice; emergency maintenance may occur anytime to prevent equipment damage or safety risks. Eight remote-hands hours are included monthly, with additional assistance billed at USD 110/hour in 15-minute increments with a one-hour minimum per request. Customers must submit a method statement 48 hours before material changes to cabling, power, or racks, and the provider may reject changes threatening cooling, fire protection, or neighbors. Customers retain ownership and control of their data; the provider does not inspect content or provide backup. Confidentiality obligations require use only for the agreement, survive three years (trade secrets indefinitely), and permit compelled disclosure only as legally required with notice. Access credentials cannot be shared with subcontractors lacking a documented need to know."
+    },
+    {
+      "title": "Data Responsibility and Confidentiality",
+      "node_id": "0007",
+      "start_index": 8,
+      "end_index": 9,
+      "key_items": [
+        "8.1 Data Boundary",
+        "8.2 Confidential Information",
+        "8.3 Disclosures"
+      ],
+      "summary": "This chunk of a data center colocation and managed facilities agreement (Cedar Peak Data Campus, Building DC-2) covers data responsibility, confidentiality, liability, insurance, and termination. Customer retains ownership and control of its applications and data; Provider does not gain inspection rights merely by hosting equipment, manages building-level services, and provides no application backup. Confidentiality obligations require use only for performing the agreement and at least reasonable care, surviving three years post-expiration, with trade secrets protected as long as they qualify. Compelled disclosures are limited to legal requirements with advance notice where allowed, and access credentials cannot go to subcontractors without a need to know. Liability is capped at twelve months of recurring license charges, excluding fraud, willful misconduct, unpaid fees, and confidentiality breaches. Provider must carry USD 2M general liability and USD 5M cyber insurance; Customer insures its own hardware. Termination for material breach requires a 30-day cure period after notice, while nonpayment of undisputed invoices has a 15-day cure period."
+    },
+    {
+      "title": "Liability, Insurance and Termination",
+      "node_id": "0008",
+      "start_index": 9,
+      "end_index": 10,
+      "key_items": [
+        "9.1 Liability Cap",
+        "9.2 Insurance",
+        "9.3 Termination for Cause"
+      ],
+      "summary": "This excerpt from a Data Center Colocation and Managed Facilities Agreement (Cedar Peak Data Campus, Building DC-2) covers liability, insurance, termination, and exit terms. Liability is capped at twelve months of recurring license charges, excluding fraud, willful misconduct, unpaid fees, and confidentiality breaches. Provider must carry USD 2 million general liability and USD 5 million aggregate cyber insurance; Customer insures its own equipment. Either party may terminate for material breach uncured 30 days after notice, with a separate 15-day cure period for nonpayment of undisputed invoices. Customer must remove equipment within 20 Business Days after service ends, restoring racks, with optional supervised access and possible storage fees. Formal notices require overnight courier or tracked registered mail with email copy; emails and tickets alone are invalid for termination. The agreement is governed by Colorado law, with exclusive venue in Denver state or federal courts and allowance for urgent injunctive relief."
+    },
+    {
+      "title": "Exit, Notices and Governing Law",
+      "node_id": "0009",
+      "start_index": 10,
+      "end_index": 10,
+      "key_items": [
+        "10.1 Equipment Removal",
+        "10.2 Formal Notices",
+        "10.3 Governing Law"
+      ],
+      "summary": "Section 10 of a Cedar Peak Data Campus (Building DC-2) colocation agreement covers exit, notices, and governing law. 10.1 requires the customer to remove equipment within 20 Business Days after service ends and restore racks to a safe, clean condition; the provider offers supervised access and may charge reasonable documented storage fees after the removal period. 10.2 requires formal notices by recognized overnight courier or tracked registered mail to order-form legal addresses, with an email courtesy copy; operational tickets and email alone are not valid termination notices. 10.3 states Colorado law governs without regard to conflict-of-laws principles, with exclusive venue in state or federal courts in Denver, and allows urgent injunctive relief where legally appropriate. The footer labels it a synthetic, non-executable retrieval benchmark document, page 10 of 10."
+    }
+  ]
+}

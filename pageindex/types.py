@@ -37,6 +37,7 @@ class LocalIndexConfig(TypedDict, total=False):
     summary_reasoning_effort: str
     use_embedded_toc: bool
     optimize: Literal["full", "merge", "off"]
+    prompt_layout: Literal["standard", "cache"]
     backend: dict
     storage_path: Union[str, os.PathLike[str]]
 

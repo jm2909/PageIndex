@@ -43,7 +43,12 @@ class LocalAPI:
                  summary_concurrency: int | None = None,
                  use_embedded_toc: bool = True,
                  optimize: str = "full",
-                 summary_reasoning_effort: str | None = None):
+                 summary_reasoning_effort: str | None = None,
+                 prompt_layout: str | None = None):
+        if prompt_layout not in (None, "standard", "cache"):
+            raise PageIndexAPIError(
+                f"prompt_layout must be 'standard' or 'cache', got {prompt_layout!r}.")
+        self._prompt_layout = prompt_layout
         self._store = DocStore(storage_path)
         self._model = model
         self._summary_model = summary_model
@@ -182,16 +187,17 @@ class LocalAPI:
                  "prompt_tokens_details": {"cached_tokens": 0,
                                            "cache_write_tokens": 0},
                  "completion_tokens_details": {"reasoning_tokens": 0}}
+        usage_by_template: dict = {}
         try:
             if mode == "flash":
                 structure, description = run_off_loop(
                     self._with_backend, usage, (self._summary_model,),
-                    self._index_flash, file_path
+                    _tallied(usage_by_template, self._index_flash), file_path
                 )
             else:
                 structure, description = run_off_loop(
                     self._with_backend, usage, (self._model, self._summary_model),
-                    self._index_standard, file_path, page_texts,
+                    _tallied(usage_by_template, self._index_standard), file_path, page_texts,
                     [p.tokens for p in md_pages] if md_pages else None
                 )
         except PageIndexAPIError:
@@ -231,7 +237,8 @@ class LocalAPI:
             }
             self._store.save_document(
                 doc_id, meta, remove_fields(structure, fields=["text"]), pages)
-        return {"doc_id": doc_id, "name": meta["name"], "usage": usage}
+        return {"doc_id": doc_id, "name": meta["name"], "usage": usage,
+                "usage_by_template": usage_by_template}
 
     def _unique_doc_name(self, name: str) -> str:
         """Mirror the cloud upload: a taken name gets _1.._99 appended,
@@ -288,6 +295,7 @@ class LocalAPI:
             "if_add_node_summary": "yes",
             "if_add_node_text": "no",
             "if_add_doc_description": "yes",
+            **({"prompt_layout": self._prompt_layout} if self._prompt_layout else {}),
         })
         result = page_index_main(file_path, opt, logger=logger, page_list=page_list)
         structure = result.get("structure") or []
@@ -471,6 +479,19 @@ class LocalAPI:
             "limit": limit,
             "offset": offset,
         }
+
+
+def _tallied(by_template: dict, func):
+    """func with calls and tokens per prompt template tallied into by_template
+    (set in the thread func runs on, so every model call it makes is seen)."""
+    def run(*args):
+        from .utils import _llm_usage_by_template
+        token = _llm_usage_by_template.set(by_template)
+        try:
+            return func(*args)
+        finally:
+            _llm_usage_by_template.reset(token)
+    return run
 
 
 def _source_type(meta: dict) -> str:

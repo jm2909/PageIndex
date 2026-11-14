@@ -178,7 +178,8 @@ def _needs_model(surface: str) -> PageIndexAPIError:
 
 _LOCAL_INDEX_KEYS = ("model", "summary_model", "backend", "storage_path",
                      "summary_max_words", "summary_concurrency",
-                     "summary_reasoning_effort", "use_embedded_toc", "optimize")
+                     "summary_reasoning_effort", "use_embedded_toc", "optimize",
+                     "prompt_layout")
 
 # Near-synonyms of "cloud" that would otherwise parse as model names —
 # a silent wrong mode. They error, pointing at the real word.
@@ -205,7 +206,7 @@ _ARG_TYPES: "dict[str, tuple[type, ...]]" = {
     "model": (str,), "index_model": (str,), "summary_model": (str,),
     "chat_model": (str,), "retrieve_model": (str,), "summary_max_words": (int,),
     "summary_concurrency": (int,), "summary_reasoning_effort": (str,),
-    "use_embedded_toc": (bool,), "optimize": (str,),
+    "use_embedded_toc": (bool,), "optimize": (str,), "prompt_layout": (str,),
     "storage_path": (str, os.PathLike), "index_backend": (dict,),
     "chat_backend": (dict,)}
 
@@ -384,8 +385,10 @@ class PageIndexClient:
             dict: ``{"api_key": ...}`` for cloud, ``{"model",
             "summary_model", "backend", "storage_path",
             "summary_max_words", "summary_concurrency",
-            "summary_reasoning_effort", "use_embedded_toc", "optimize"}``
-            for local. An
+            "summary_reasoning_effort", "use_embedded_toc", "optimize",
+            "prompt_layout"}`` for local (``prompt_layout``: ``"standard"``,
+            the default, or the opt-in ``"cache"`` layout for standard
+            mode). An
             optional ``"mode"`` key (``"cloud"`` / ``"local"``) states
             the side and must agree with the other keys; ``{"mode":
             "cloud"}`` alone reads the key from the environment. Not
@@ -770,6 +773,7 @@ class PageIndexClient:
                 use_embedded_toc=index_conf.get("use_embedded_toc", True),
                 optimize=index_conf.get("optimize", "full"),
                 summary_reasoning_effort=index_conf.get("summary_reasoning_effort"),
+                prompt_layout=index_conf.get("prompt_layout"),
             )
             # LiteLLM's multi-second import would otherwise land on the
             # first chat call; failures resurface there with real context.
@@ -899,7 +903,9 @@ class PageIndexClient:
                 and a UserWarning is emitted. Older cloud servers omit 'name'.
                 Local also returns 'usage', the indexing model's tokens summed
                 over every call, in the Chat Completions usage shape
-                LiteLLM returns.
+                LiteLLM returns, and 'usage_by_template': per prompt
+                template, {'calls', 'prompt_tokens', 'completion_tokens',
+                'cached_tokens', 'cache_write_tokens'} (sums equal 'usage').
         """
         result = self._api.submit_document(
             file_path=file_path, mode=mode,
