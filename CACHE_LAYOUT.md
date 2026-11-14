@@ -27,8 +27,11 @@ client = PageIndexLocalClient(
     index={"storage_path": "./my_index", "model": "anthropic/claude-haiku-5-5", "prompt_layout": "cache"}
 )
 
-# Index a document (uses cache-aware prompts)
+# Index a PDF document (uses cache-aware prompts)
 result = client.submit_document("path/to/document.pdf", mode="standard")
+
+# OR index a Markdown document (same cache layout, same prompts)
+result = client.submit_document("path/to/document.md", mode="standard")
 ```
 
 ### Use Different Models for Indexing vs Chat
@@ -45,11 +48,14 @@ client = PageIndexLocalClient(
     chat_model="anthropic/claude-opus-5-5"  # Different model for chat
 )
 
-# Index: uses Haiku with cache-aware layout (low cost)
-result = client.submit_document("document.pdf", mode="standard")
+# Index a PDF: uses Haiku with cache-aware layout (low cost)
+pdf_result = client.submit_document("report.pdf", mode="standard")
+
+# OR index a Markdown file: same cache layout, identical prompts
+md_result = client.submit_document("notes.md", mode="standard")
 
 # Chat: uses Opus for better reasoning over the indexed tree
-answer = client.chat("What are the key risks?", doc_id=result["doc_id"])
+answer = client.chat("What are the key risks?", doc_id=pdf_result["doc_id"])
 ```
 
 **Why this matters:**
@@ -62,7 +68,11 @@ answer = client.chat("What are the key risks?", doc_id=result["doc_id"])
 If using the PageIndex CLI:
 
 ```bash
+# Index a PDF document
 python run_pageindex.py --prompt-layout cache --index-path ./my_index "document.pdf"
+
+# OR index a Markdown document (same cache layout)
+python run_pageindex.py --prompt-layout cache --index-path ./my_index "document.md"
 ```
 
 ---
